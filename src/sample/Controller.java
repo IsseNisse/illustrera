@@ -1,67 +1,60 @@
 package sample;
 
-import javafx.event.EventType;
-import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
 
-import java.io.FileWriter;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
+
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Controller {
-    @FXML
-    private Canvas canvas;
 
-    private ArrayList<Shape> shapes = new ArrayList<>();
+    public static Image openBtn() {
+        FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(loader.getRoot());
 
-    private final Color strokeColor = Color.BLACK;
-    private int size = 20;
-    private double startX;
-    private double startY;
-
-    public void draw(MouseEvent mouseEvent) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        double mouseX = mouseEvent.getX();
-        double mouseY = mouseEvent.getY();
-        if (!eventType.getName().equals("MOUSE_RELEASED")) {
-            if (eventType.getName().equals("MOUSE_PRESSED")) {
-                startX = mouseX;
-                startY = mouseY;
-            }
-        } else {
-            Line line = new Line(startX, startY, mouseX, mouseY);
-            shapes.add(line);
-            gc.setStroke(strokeColor);
-            gc.setLineWidth(size);
-            for (Shape shape : shapes) {
-                String type = shape.getTypeSelector();
-                if (type.equals("Line")) {
-                    Line line2 = (Line)shape;
-                    gc.strokeLine(line2.getStartX(), line2.getStartY(), line2.getEndX(), line2.getEndY());
+        if (file == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No File Selected");
+            alert.setHeaderText("No File Selected");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
                 }
-            }
-//            createSVGPath(startX, startY, mouseX, mouseY, "line");
+            });
+        } else {
+            Image openImage = new Image(file.toURI().toString());
+            drawController.emptySavedImages();
+            return openImage;
         }
+        return null;
     }
 
-//    private void createSVGPath(double startX, double startY, double mouseX, double mouseY, String type) {
-//        if (type.equals("line")) {
-//            try {
-//                FileWriter fileWriter = new FileWriter("filename.xml");
-//                fileWriter.write(" <svg height=\"210\" width=\"500\">\n" +
-//                        "  <line x1=\"" + startX +"\" y1=\"0\" x2=\"200\" y2=\"200\" style=\"stroke:rgb(255,0,0);stroke-width:2\" />\n" +
-//                        "</svg> ");
-//                fileWriter.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    public static void saveBtn(Image image) {
+        FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showSaveDialog(loader.getRoot());
+        if (file != null) {
+            try {
+                ImageIO.write(SwingFXUtils.fromFXImage(image,null), "png", file);
+            } catch (IOException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Could not save file, try again");
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == ButtonType.OK) {
+                        System.out.println("Pressed OK");
+                    }
+                });
+            }
+        }
+    }
 }
