@@ -6,11 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller {
 
@@ -44,7 +49,23 @@ public class Controller {
         File file = fileChooser.showSaveDialog(loader.getRoot());
         if (file != null) {
             try {
-                ImageIO.write(SwingFXUtils.fromFXImage(image,null), "png", file);
+                ArrayList<Shape> shapes = drawController.shapes;
+                FileWriter svgWriter = new FileWriter(file + ".svg");
+                svgWriter.append("<svg height=\"1040\" width=\"1820\">");
+                for (Shape shape : shapes) {
+                    if (shape.getTypeSelector().equals("Line")) {
+                        Line line = (Line)shape;
+                        String color = line.getStroke().toString();
+                        color = color.replaceFirst("(?:0)", "");
+                        color = color.replaceFirst("(?:x)", "");
+                        for (int i = 0; i < 2; i++) {
+                            color = color.substring(0, color.length() - 1);
+                        }
+                        svgWriter.append("<line x1=\"" + line.getStartX() + "\" y1=\"" + line.getStartY() + "\" x2=\"" + line.getEndX() + "\" y2=\"" + line.getEndY() + "\" style=\"stroke:#" + color + ";stroke-width:10\" />\n");
+                    }
+                }
+                svgWriter.append("</svg>");
+                svgWriter.close();
             } catch (IOException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");

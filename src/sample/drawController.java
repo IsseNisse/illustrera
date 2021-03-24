@@ -11,7 +11,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
+import java.awt.*;
 import java.util.*;
 
 public class drawController {
@@ -27,9 +30,10 @@ public class drawController {
 
     private static final Stack<Image> savedImages = new Stack<>();
     private final Stack<Image> savedLines = new Stack<>();
+    public static ArrayList<Shape> shapes = new ArrayList<>();
 
     private int size = 10;
-    private Color strokeColor = Color.BLACK;
+    private Color strokeColor = Color.BLUE;
     private Color fillColor = Color.TRANSPARENT;
 
     private double anchor1X;
@@ -122,6 +126,10 @@ public class drawController {
             } else {
                 height = mouseY - anchor1Y;
             }
+            Line line = new Line(anchor1X, anchor1Y, mouseX, mouseY);
+            line.setStroke(strokeColor);
+            line.setStrokeWidth(size);
+            shapes.add(line);
             whichShapeToBeDrawn(gc, mouseX, mouseY, shape, width, height);
 
             /* save snapshot */
