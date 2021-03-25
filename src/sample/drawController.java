@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -125,10 +127,19 @@ public class drawController {
             } else {
                 height = mouseY - anchor1Y;
             }
-            Line line = new Line(anchor1X, anchor1Y, mouseX, mouseY);
-            line.setStroke(strokeColor);
-            line.setStrokeWidth(size);
-            shapes.add(line);
+
+            if (shape.equals("line")) {
+                Line line = new Line(anchor1X, anchor1Y, mouseX, mouseY);
+                line.setStroke(strokeColor);
+                line.setStrokeWidth(size);
+                shapes.add(line);
+            } else if (shape.equals("circle")) {
+                Ellipse ellipse = new Ellipse(anchor1X + width/2, anchor1Y + height/2, width/2, height/2);
+                ellipse.setStroke(strokeColor);
+                ellipse.setFill(fillColor);
+                ellipse.setStrokeWidth(size);
+                shapes.add(ellipse);
+            }
             whichShapeToBeDrawn(gc, mouseX, mouseY, shape, width, height);
 
             /* save snapshot */
