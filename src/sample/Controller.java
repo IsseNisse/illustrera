@@ -1,21 +1,18 @@
 package sample;
 
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
-
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Controller {
 
@@ -55,13 +52,13 @@ public class Controller {
                 for (Shape shape : shapes) {
                     if (shape.getTypeSelector().equals("Line")) {
                         Line line = (Line)shape;
-                        String color = line.getStroke().toString();
-                        color = color.replaceFirst("(?:0)", "");
-                        color = color.replaceFirst("(?:x)", "");
-                        for (int i = 0; i < 2; i++) {
-                            color = color.substring(0, color.length() - 1);
-                        }
-                        svgWriter.append("<line x1=\"" + line.getStartX() + "\" y1=\"" + line.getStartY() + "\" x2=\"" + line.getEndX() + "\" y2=\"" + line.getEndY() + "\" style=\"stroke:#" + color + ";stroke-width:10\" />\n");
+                        String strokeColor = getStrokeColor(shape);
+                        svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getEndX())).append("\" y2=\"").append(String.valueOf(line.getEndY())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:10\" />\n");
+                    } else if (shape.getTypeSelector().equals("Circle")) {
+                        Ellipse ellipse = (Ellipse)shape;
+                        String strokeColor = getStrokeColor(shape);
+                        String fillColor = getFillColor(shape);
+                        svgWriter.append("<ellipse cx=\"").append(String.valueOf(ellipse.getCenterX())).append("\" cy=\"").append(String.valueOf(ellipse.getCenterY())).append("\" rx=\"").append(String.valueOf(ellipse.getRadiusX())).append("\" ry=\"").append(String.valueOf(ellipse.getRadiusY())).append("\" style=\"fill:").append(fillColor).append(";stroke:").append(strokeColor).append(";stroke-width:2\" />");
                     }
                 }
                 svgWriter.append("</svg>");
@@ -77,5 +74,25 @@ public class Controller {
                 });
             }
         }
+    }
+
+    private static String getStrokeColor(Shape shape) {
+        String color = shape.getStroke().toString();
+        color = color.replaceFirst("(?:0)", "");
+        color = color.replaceFirst("(?:x)", "");
+        for (int i = 0; i < 2; i++) {
+            color = color.substring(0, color.length() - 1);
+        }
+        return color;
+    }
+
+    private static String getFillColor(Shape shape) {
+        String color = shape.getFill().toString();
+        color = color.replaceFirst("(?:0)", "");
+        color = color.replaceFirst("(?:x)", "");
+        for (int i = 0; i < 2; i++) {
+            color = color.substring(0, color.length() - 1);
+        }
+        return color;
     }
 }

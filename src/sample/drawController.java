@@ -14,7 +14,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-import java.awt.*;
 import java.util.*;
 
 public class drawController {
@@ -34,7 +33,7 @@ public class drawController {
 
     private int size = 10;
     private Color strokeColor = Color.BLUE;
-    private Color fillColor = Color.TRANSPARENT;
+    private Color fillColor = Color.RED;
 
     private double anchor1X;
     private double anchor1Y;
@@ -220,10 +219,6 @@ public class drawController {
 
 
     /* Buttons for changing drawing type */
-
-    public void freeDrawBtn(ActionEvent actionEvent) {
-        drawFunction = "freeDraw";
-    }
 
     public void drawLineBtn(ActionEvent actionEvent) {
         drawFunction = "drawLine";

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.drawController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.drawController">
   <columnConstraints>
     <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -28,11 +28,20 @@
       </ToolBar>
       <ToolBar orientation="VERTICAL" prefHeight="360.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
         <items>
-          <Button mnemonicParsing="false" text="Button">
+          <Button mnemonicParsing="false" onAction="#drawLineBtn" text="Line">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </Button>
+            <MenuButton mnemonicParsing="false" text="Shapes">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#SquareBtn" text="Square" />
+                <MenuItem mnemonicParsing="false" onAction="#CircleBtn" text="Circle" />
+              </items>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </MenuButton>
         </items>
       </ToolBar>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
