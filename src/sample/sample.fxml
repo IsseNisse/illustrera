@@ -64,13 +64,20 @@
         </items>
       </ToolBar>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
-        <items>
-          <Button mnemonicParsing="false" text="Button">
+         <items>
+            <MenuButton mnemonicParsing="false" text="Size">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#size10" text="10px" />
+                <MenuItem mnemonicParsing="false" onAction="#size15" text="15px" />
+                  <MenuItem mnemonicParsing="false" onAction="#size25" text="25px" />
+                  <MenuItem mnemonicParsing="false" onAction="#size40" text="40px" />
+                  <MenuItem mnemonicParsing="false" onAction="#size80" text="80px" />
+              </items>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
-            </Button>
-        </items>
+            </MenuButton>
+         </items>
       </ToolBar>
    </children>
 </GridPane>

@@ -53,17 +53,17 @@ public class Controller {
                     if (shape.getTypeSelector().equals("Line")) {
                         Line line = (Line)shape;
                         String strokeColor = getStrokeColor(shape);
-                        svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getEndX())).append("\" y2=\"").append(String.valueOf(line.getEndY())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:10\" />\n");
+                        svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getEndX())).append("\" y2=\"").append(String.valueOf(line.getEndY())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getStrokeWidth())).append("\" />\n");
                     } else if (shape.getTypeSelector().equals("Ellipse")) {
                         Ellipse ellipse = (Ellipse)shape;
                         String strokeColor = getStrokeColor(shape);
                         String fillColor = getFillColor(shape);
-                        svgWriter.append("<ellipse cx=\"").append(String.valueOf(ellipse.getCenterX())).append("\" cy=\"").append(String.valueOf(ellipse.getCenterY())).append("\" rx=\"").append(String.valueOf(ellipse.getRadiusX())).append("\" ry=\"").append(String.valueOf(ellipse.getRadiusY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:10\" />\n");
+                        svgWriter.append("<ellipse cx=\"").append(String.valueOf(ellipse.getCenterX())).append("\" cy=\"").append(String.valueOf(ellipse.getCenterY())).append("\" rx=\"").append(String.valueOf(ellipse.getRadiusX())).append("\" ry=\"").append(String.valueOf(ellipse.getRadiusY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getStrokeWidth())).append("\" />\n");
                     } else if (shape.getTypeSelector().equals("Rectangle")) {
                         Rectangle rectangle = (Rectangle)shape;
                         String strokeColor = getStrokeColor(shape);
                         String fillColor = getFillColor(shape);
-                        svgWriter.append("<rect x=\"").append(String.valueOf(rectangle.getX())).append("\" y=\"").append(String.valueOf(rectangle.getY())).append("\" width=\"").append(String.valueOf(rectangle.getWidth())).append("\" height=\"").append(String.valueOf(rectangle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:10\" />\n");
+                        svgWriter.append("<rect x=\"").append(String.valueOf(rectangle.getX())).append("\" y=\"").append(String.valueOf(rectangle.getY())).append("\" width=\"").append(String.valueOf(rectangle.getWidth())).append("\" height=\"").append(String.valueOf(rectangle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getStrokeWidth())).append("\" />\n");
                     }
                 }
                 svgWriter.append("</svg>");
