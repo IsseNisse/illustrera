@@ -29,6 +29,7 @@ public class drawController {
     private static final Stack<Image> savedImages = new Stack<>();
     private final Stack<Image> savedLines = new Stack<>();
     public static ArrayList<Shape> shapes = new ArrayList<>();
+    private ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private int size = 10;
     private Color strokeColor = Color.BLACK;
@@ -298,5 +299,11 @@ public class drawController {
 
     public static void emptySavedImages() {
         savedImages.clear();
+    }
+
+    public void onShapeSelected(MouseEvent mouseEvent) {
+        Shape selectedShape = (Shape)mouseEvent.getSource();
+        selectedShapes.clear();
+        selectedShapes.add(selectedShape);
     }
 }
