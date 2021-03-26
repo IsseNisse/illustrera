@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.drawController">
   <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -26,7 +28,8 @@
             </Button>
         </items>
       </ToolBar>
-      <ToolBar orientation="VERTICAL" prefHeight="360.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+      <Canvas fx:id="canvas" height="1040.0" onMouseDragged="#draw" onMousePressed="#draw" onMouseReleased="#draw" width="1800.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+      <ToolBar maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="40.0" prefWidth="40.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
         <items>
           <Button mnemonicParsing="false" onAction="#drawLineBtn" text="Line">
                <cursor>
@@ -42,6 +45,22 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </MenuButton>
+            <Label text="Stroke Color">
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <ColorPicker fx:id="strokeColorPicker" onAction="#strokeColorPicker" prefWidth="110.0">
+               <value>
+                  <Color />
+               </value>
+            </ColorPicker>
+            <Label layoutX="10.0" layoutY="70.0" text="Fill Color" />
+            <ColorPicker fx:id="fillColorPicker" layoutX="10.0" layoutY="70.0" onAction="#fillColorPicker" prefWidth="110.0">
+               <value>
+                  <Color opacity="0.0" />
+               </value>
+            </ColorPicker>
         </items>
       </ToolBar>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
@@ -53,6 +72,5 @@
             </Button>
         </items>
       </ToolBar>
-      <Canvas fx:id="canvas" height="1040.0" onMouseDragged="#draw" onMousePressed="#draw" onMouseReleased="#draw" width="1820.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
    </children>
 </GridPane>

@@ -63,7 +63,7 @@ public class Controller {
                         Rectangle rectangle = (Rectangle)shape;
                         String strokeColor = getStrokeColor(shape);
                         String fillColor = getFillColor(shape);
-                        svgWriter.append("<rect x=\"" + rectangle.getX() + "\" y=\"" + rectangle.getY() + "\" width=\"" + rectangle.getWidth() + "\" height=\"" + rectangle.getHeight() + "\" style=\"fill:#" + fillColor + ";stroke:#" + strokeColor + ";stroke-width:10\" />");
+                        svgWriter.append("<rect x=\"").append(String.valueOf(rectangle.getX())).append("\" y=\"").append(String.valueOf(rectangle.getY())).append("\" width=\"").append(String.valueOf(rectangle.getWidth())).append("\" height=\"").append(String.valueOf(rectangle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:10\" />\n");
                     }
                 }
                 svgWriter.append("</svg>");

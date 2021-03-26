@@ -31,8 +31,8 @@ public class drawController {
     public static ArrayList<Shape> shapes = new ArrayList<>();
 
     private int size = 10;
-    private Color strokeColor = Color.BLUE;
-    private Color fillColor = Color.RED;
+    private Color strokeColor = Color.BLACK;
+    private Color fillColor = Color.TRANSPARENT;
 
     private double anchor1X;
     private double anchor1Y;
@@ -236,10 +236,6 @@ public class drawController {
 
     public void drawLineBtn(ActionEvent actionEvent) {
         drawFunction = "drawLine";
-    }
-
-    public void fillBtn(ActionEvent actionEvent) {
-        drawFunction = "fill";
     }
 
     public void SquareBtn(ActionEvent actionEvent) {
