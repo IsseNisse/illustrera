@@ -11,10 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.*;
 
 import java.util.*;
 
@@ -139,6 +136,12 @@ public class drawController {
                 ellipse.setFill(fillColor);
                 ellipse.setStrokeWidth(size);
                 shapes.add(ellipse);
+            } else if (shape.equals("square")) {
+                Rectangle rectangle = new Rectangle(anchor1X, anchor1Y, width, height);
+                rectangle.setStroke(strokeColor);
+                rectangle.setFill(fillColor);
+                rectangle.setStrokeWidth(size);
+                shapes.add(rectangle);
             }
             whichShapeToBeDrawn(gc, mouseX, mouseY, shape, width, height);
 

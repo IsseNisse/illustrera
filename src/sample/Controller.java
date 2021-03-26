@@ -4,9 +4,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import java.io.File;
@@ -58,8 +58,12 @@ public class Controller {
                         Ellipse ellipse = (Ellipse)shape;
                         String strokeColor = getStrokeColor(shape);
                         String fillColor = getFillColor(shape);
-                        System.out.println(strokeColor + " " + fillColor);
                         svgWriter.append("<ellipse cx=\"").append(String.valueOf(ellipse.getCenterX())).append("\" cy=\"").append(String.valueOf(ellipse.getCenterY())).append("\" rx=\"").append(String.valueOf(ellipse.getRadiusX())).append("\" ry=\"").append(String.valueOf(ellipse.getRadiusY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:10\" />\n");
+                    } else if (shape.getTypeSelector().equals("Rectangle")) {
+                        Rectangle rectangle = (Rectangle)shape;
+                        String strokeColor = getStrokeColor(shape);
+                        String fillColor = getFillColor(shape);
+                        svgWriter.append("<rect x=\"" + rectangle.getX() + "\" y=\"" + rectangle.getY() + "\" width=\"" + rectangle.getWidth() + "\" height=\"" + rectangle.getHeight() + "\" style=\"fill:#" + fillColor + ";stroke:#" + strokeColor + ";stroke-width:10\" />");
                     }
                 }
                 svgWriter.append("</svg>");
