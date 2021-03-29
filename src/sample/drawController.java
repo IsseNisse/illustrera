@@ -1,5 +1,7 @@
 package sample;
 
+import com.sun.javafx.geom.Area;
+import com.sun.javafx.geom.PathIterator;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
@@ -8,8 +10,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
@@ -66,10 +70,22 @@ public class drawController {
             case "drawTriangle":
                 drawTriangle(gc, mouseX, mouseY, mouseEvent);
                 break;
+            case "select":
+                select(mouseX, mouseY, mouseEvent);
+                break;
         }
     }
 
+
     /* Functions for different types of drawing */
+
+    private void select(double mouseX, double mouseY, MouseEvent mouseEvent) {
+        EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
+        if (eventType.getName().equals("MOUSE_PRESSED")) {
+            PixelReader pixelReader = savedImages.get(savedImages.size() - 1).getPixelReader();
+            Color pixelColor = pixelReader.getColor((int)mouseX, (int)mouseY);
+        }
+    }
 
     public void drawLine(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
@@ -144,7 +160,7 @@ public class drawController {
                 rectangle.setStrokeWidth(size);
                 shapes.add(rectangle);
             }
-            whichShapeToBeDrawn(gc, mouseX, mouseY, shape, width, height);
+           whichShapeToBeDrawn(gc, mouseX, mouseY, shape, width, height);
 
             /* save snapshot */
             makeSnapshot(savedImages);
@@ -235,6 +251,10 @@ public class drawController {
 
     /* Buttons for changing drawing type */
 
+    public void selectBtn(ActionEvent actionEvent) {
+        drawFunction = "select";
+    }
+
     public void drawLineBtn(ActionEvent actionEvent) {
         drawFunction = "drawLine";
     }
@@ -301,9 +321,4 @@ public class drawController {
         savedImages.clear();
     }
 
-    public void onShapeSelected(MouseEvent mouseEvent) {
-        Shape selectedShape = (Shape)mouseEvent.getSource();
-        selectedShapes.clear();
-        selectedShapes.add(selectedShape);
-    }
 }
