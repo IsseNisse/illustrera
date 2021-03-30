@@ -76,8 +76,7 @@ public class drawController {
     private void select(double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
         if (eventType.getName().equals("MOUSE_PRESSED")) {
-            PixelReader pixelReader = savedImages.get(savedImages.size() - 1).getPixelReader();
-            Color pixelColor = pixelReader.getColor((int)mouseX, (int)mouseY);
+
         }
     }
 
