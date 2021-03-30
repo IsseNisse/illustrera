@@ -13,6 +13,10 @@ public class Shape {
     private double startY;
     private double endX;
     private double endY;
+    private double centerX;
+    private double centerY;
+    private double width;
+    private double height;
     private String type;
 
     public Shape(double startX, double startY, double endX, double endY) {
@@ -76,6 +80,42 @@ public class Shape {
 
     public void setEndY(double endY) {
         this.endY = endY;
+    }
+
+    public double getCenterX() {
+        centerX = width/2;
+        return centerX;
+    }
+
+    public void setCenterX(double centerX) {
+        this.centerX = centerX;
+    }
+
+    public double getCenterY() {
+        centerY = height/2;
+        return centerY;
+    }
+
+    public void setCenterY(double centerY) {
+        this.centerY = centerY;
+    }
+
+    public double getWidth() {
+        width = endX - startX;
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        height = endY - startY;
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getSize() {
