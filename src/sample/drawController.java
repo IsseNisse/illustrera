@@ -1,11 +1,8 @@
 package sample;
 
-import com.sun.javafx.geom.Area;
-import com.sun.javafx.geom.PathIterator;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
@@ -13,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
@@ -32,7 +28,7 @@ public class drawController {
 
     private static final Stack<Image> savedImages = new Stack<>();
     private final Stack<Image> savedLines = new Stack<>();
-    public static ArrayList<Shape> shapes = new ArrayList<>();
+    public static ArrayList<javafx.scene.shape.Shape> shapes = new ArrayList<>();
     private ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private int size = 10;
@@ -41,8 +37,6 @@ public class drawController {
 
     private double anchor1X;
     private double anchor1Y;
-
-    private Point2D last;
 
     private String drawFunction = "drawLine";
     private boolean keyPressed;
