@@ -6,6 +6,7 @@ public class Line extends Shape {
     public Line(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
         calculateArea();
+        type();
     }
 
     private void calculateArea() {
@@ -15,6 +16,10 @@ public class Line extends Shape {
         int height = a^2 + b^2;
 
         super.setArea(width*height);
+    }
+
+    private void type() {
+        super.setType("Line");
     }
 
     public void draw(GraphicsContext gc) {

@@ -5,6 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 public class Circle extends Shape {
     public Circle(double startX, double startY, double endX, double endY) {
         super(startX, startY, endX, endY);
+        calculateArea();
+        type();
     }
 
     public void calculateArea() {
@@ -13,6 +15,10 @@ public class Circle extends Shape {
 
         double area = Math.PI * radius1 * radius2;
         super.setArea(area);
+    }
+
+    private void type() {
+        super.setType("Circle");
     }
 
     public void draw(GraphicsContext gc) {

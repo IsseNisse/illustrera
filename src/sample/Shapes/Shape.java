@@ -13,6 +13,7 @@ public class Shape {
     private double startY;
     private double endX;
     private double endY;
+    private String type;
 
     public Shape(double startX, double startY, double endX, double endY) {
         this.startX = startX;
@@ -83,6 +84,14 @@ public class Shape {
 
     public void setSize(double size) {
         this.size = size;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

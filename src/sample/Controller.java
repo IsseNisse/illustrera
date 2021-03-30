@@ -4,10 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import sample.Shapes.*;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,16 +47,16 @@ public class Controller {
                 FileWriter svgWriter = new FileWriter(file + ".svg");
                 svgWriter.append("<svg height=\"1040\" width=\"1820\">");
                 for (Shape shape : shapes) {
-                    if (shape.getTypeSelector().equals("Line")) {
+                    if (shape.getType().equals("Line")) {
                         Line line = (Line)shape;
                         String strokeColor = getStrokeColor(shape);
                         svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getEndX())).append("\" y2=\"").append(String.valueOf(line.getEndY())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getStrokeWidth())).append("\" />\n");
-                    } else if (shape.getTypeSelector().equals("Ellipse")) {
-                        Ellipse ellipse = (Ellipse)shape;
+                    } else if (shape.getType().equals("Circle")) {
+                        Circle circle = (Circle)shape;
                         String strokeColor = getStrokeColor(shape);
                         String fillColor = getFillColor(shape);
-                        svgWriter.append("<ellipse cx=\"").append(String.valueOf(ellipse.getCenterX())).append("\" cy=\"").append(String.valueOf(ellipse.getCenterY())).append("\" rx=\"").append(String.valueOf(ellipse.getRadiusX())).append("\" ry=\"").append(String.valueOf(ellipse.getRadiusY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getStrokeWidth())).append("\" />\n");
-                    } else if (shape.getTypeSelector().equals("Rectangle")) {
+                        svgWriter.append("<circle cx=\"").append(String.valueOf(circle.getCenterX())).append("\" cy=\"").append(String.valueOf(circle.getCenterY())).append("\" rx=\"").append(String.valueOf(circle.getRadiusX())).append("\" ry=\"").append(String.valueOf(circle.getRadiusY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getStrokeWidth())).append("\" />\n");
+                    } else if (shape.getType().equals("Rectangle")) {
                         Rectangle rectangle = (Rectangle)shape;
                         String strokeColor = getStrokeColor(shape);
                         String fillColor = getFillColor(shape);

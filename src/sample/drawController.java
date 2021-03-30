@@ -7,11 +7,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+//import javafx.scene.shape.*;
+import sample.Shapes.*;
 
 import java.util.*;
 
@@ -28,7 +28,7 @@ public class drawController {
 
     private static final Stack<Image> savedImages = new Stack<>();
     private final Stack<Image> savedLines = new Stack<>();
-    public static ArrayList<javafx.scene.shape.Shape> shapes = new ArrayList<>();
+    public static ArrayList<Shape> shapes = new ArrayList<>();
     private ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private int size = 10;
@@ -138,19 +138,19 @@ public class drawController {
             if (shape.equals("line")) {
                 Line line = new Line(anchor1X, anchor1Y, mouseX, mouseY);
                 line.setStroke(strokeColor);
-                line.setStrokeWidth(size);
+                line.setSize(size);
                 shapes.add(line);
             } else if (shape.equals("circle")) {
-                Ellipse ellipse = new Ellipse(anchor1X + width/2, anchor1Y + height/2, width/2, height/2);
-                ellipse.setStroke(strokeColor);
-                ellipse.setFill(fillColor);
-                ellipse.setStrokeWidth(size);
-                shapes.add(ellipse);
+                Circle circle = new Circle(anchor1X + width/2, anchor1Y + height/2, width/2, height/2);
+                circle.setStroke(strokeColor);
+                circle.setFill(fillColor);
+                circle.setSize(size);
+                shapes.add(circle);
             } else if (shape.equals("square")) {
                 Rectangle rectangle = new Rectangle(anchor1X, anchor1Y, width, height);
                 rectangle.setStroke(strokeColor);
                 rectangle.setFill(fillColor);
-                rectangle.setStrokeWidth(size);
+                rectangle.setSize(size);
                 shapes.add(rectangle);
             }
            whichShapeToBeDrawn(gc, mouseX, mouseY, shape, width, height);
