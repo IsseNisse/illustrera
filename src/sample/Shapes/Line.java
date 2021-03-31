@@ -11,6 +11,9 @@ public class Line extends Shape {
 
     public Line() {
         super();
+        calculateArea();
+        type();
+
     }
 
     private void calculateArea() {

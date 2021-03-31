@@ -12,6 +12,8 @@ public class Rectangle extends Shape {
 
     public Rectangle() {
         super();
+        calculateArea();
+        type();
     }
 
     private void calculateArea() {
