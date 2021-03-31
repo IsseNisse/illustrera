@@ -9,6 +9,10 @@ public class Line extends Shape {
         type();
     }
 
+    public Line() {
+        super();
+    }
+
     private void calculateArea() {
         double width = getSize();
         int a = (int) (getEndX() - getStartX());
@@ -22,6 +26,7 @@ public class Line extends Shape {
         super.setType("Line");
     }
 
+    @Override
     public void draw(GraphicsContext gc) {
         gc.setStroke(getStroke());
         gc.setLineWidth(getSize());

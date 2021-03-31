@@ -1,5 +1,6 @@
 package sample.Shapes;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.Objects;
@@ -24,6 +25,13 @@ public class Shape {
         this.startY = startY;
         this.endX = endX;
         this.endY = endY;
+    }
+
+    public Shape() {
+        this.startX = 0;
+        this.startY = 0;
+        this.endX = 0;
+        this.endY = 0;
     }
 
     public Color getFill() {
@@ -134,16 +142,21 @@ public class Shape {
         this.type = type;
     }
 
+
+    public void draw(GraphicsContext gc) {
+        gc.setStroke(stroke);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shape shape = (Shape) o;
-        return Double.compare(shape.area, area) == 0 && Double.compare(shape.startX, startX) == 0 && Double.compare(shape.startY, startY) == 0 && Double.compare(shape.endX, endX) == 0 && Double.compare(shape.endY, endY) == 0 && Objects.equals(fill, shape.fill) && Objects.equals(stroke, shape.stroke);
+        return Double.compare(shape.size, size) == 0 && Double.compare(shape.area, area) == 0 && Double.compare(shape.startX, startX) == 0 && Double.compare(shape.startY, startY) == 0 && Double.compare(shape.endX, endX) == 0 && Double.compare(shape.endY, endY) == 0 && Double.compare(shape.centerX, centerX) == 0 && Double.compare(shape.centerY, centerY) == 0 && Double.compare(shape.width, width) == 0 && Double.compare(shape.height, height) == 0 && Objects.equals(fill, shape.fill) && Objects.equals(stroke, shape.stroke) && Objects.equals(type, shape.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fill, stroke, area, startX, startY, endX, endY);
+        return Objects.hash(fill, stroke, size, area, startX, startY, endX, endY, centerX, centerY, width, height, type);
     }
 }

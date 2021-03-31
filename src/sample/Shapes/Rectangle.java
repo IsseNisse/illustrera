@@ -10,6 +10,10 @@ public class Rectangle extends Shape {
         type();
     }
 
+    public Rectangle() {
+        super();
+    }
+
     private void calculateArea() {
         double width = getStartX() - getEndX();
         double height = getStartY() - getEndY();
@@ -21,6 +25,7 @@ public class Rectangle extends Shape {
         super.setType("Rectangle");
     }
 
+    @Override
     public void draw(GraphicsContext gc) {
         gc.setStroke(getStroke());
         gc.setFill(getFill());
