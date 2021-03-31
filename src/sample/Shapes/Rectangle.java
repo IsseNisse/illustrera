@@ -16,10 +16,10 @@ public class Rectangle extends Shape {
         type();
     }
 
-    private void calculateArea() {
+    @Override
+    public void calculateArea() {
         double width = getStartX() - getEndX();
         double height = getStartY() - getEndY();
-
         super.setArea(width * height);
     }
 

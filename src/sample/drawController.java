@@ -74,13 +74,6 @@ public class drawController {
 
     /* Functions for different types of drawing */
 
-    private void select(double mouseX, double mouseY, MouseEvent mouseEvent) {
-        EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        if (eventType.getName().equals("MOUSE_PRESSED")) {
-
-        }
-    }
-
     public void drawLine(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
         Line line = new Line();
@@ -105,6 +98,24 @@ public class drawController {
 //        String shape = "triangle";
 //        shapeDraw(mouseX, mouseY, eventType, shape);
 //    }
+
+    private void select(double mouseX, double mouseY, MouseEvent mouseEvent) {
+        EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
+        if (eventType.getName().equals("MOUSE_PRESSED")) {
+            for (Shape shape : shapes) {
+
+                if (mouseX >= shape.getStartX() && mouseX <= (shape.getEndX() + shape.getStartX())) {
+                    if (mouseY >= shape.getStartY() && mouseY <= (shape.getEndY() + shape.getStartY())) {
+                        System.out.println("Form");
+                    } else {
+                        System.out.println("Ingenting");
+                    }
+                } else {
+                    System.out.println("Ingenting");
+                }
+            }
+        }
+    }
 
 
     /* Function for general shape drawing and animation */
@@ -132,14 +143,7 @@ public class drawController {
                     }
                 }
 
-                shape.setStartX(anchor1X);
-                shape.setStartY(anchor1Y);
-                shape.setEndX(width);
-                shape.setEndY(height);
-                shape.setFill(fillColor);
-                shape.setStroke(strokeColor);
-                shape.setSize(size);
-                shape.draw(gc);
+                editAndDrawShape(gc, shape, height, width);
             }
         } else {
             width = mouseX - anchor1X;
@@ -152,14 +156,8 @@ public class drawController {
                     height = mouseY;
                 }
             }
-            shape.setStartX(anchor1X);
-            shape.setStartY(anchor1Y);
-            shape.setEndX(width);
-            shape.setEndY(height);
-            shape.setFill(fillColor);
-            shape.setStroke(strokeColor);
-            shape.setSize(size);
-            shape.draw(gc);
+
+            editAndDrawShape(gc, shape, height, width);
             shapes.add(shape);
 
             /* save snapshot */
@@ -167,57 +165,15 @@ public class drawController {
         }
     }
 
-
-    /* Switch case to decide which function is calling on shapeDraw */
-    private void whichShapeToBeDrawn(GraphicsContext gc, double mouseX, double mouseY, String shape, double width, double height) {
-        switch (shape) {
-            case "circle":
-                makeCircle(gc, width, height);
-                break;
-            case "square":
-                makeSquare(gc, width, height);
-                break;
-            case "line":
-                makeLine(gc, mouseX, mouseY);
-                break;
-            case "triangle":
-                makeTriangle(gc, mouseX, mouseY);
-                break;
-        }
-    }
-
-
-    /* The functions for actually drawing a shape */
-    private void makeLine(GraphicsContext gc, double mouseX, double mouseY) {
-        gc.setStroke(strokeColor);
-        gc.setLineWidth(size);
-        gc.strokeLine(anchor1X, anchor1Y, mouseX, mouseY);
-    }
-
-    private void makeSquare(GraphicsContext gc, double width, double height) {
-        gc.setStroke(strokeColor);
-        gc.setFill(fillColor);
-        gc.setLineWidth(size);
-        gc.fillRect(anchor1X, anchor1Y, width, height);
-        gc.strokeRect(anchor1X, anchor1Y, width, height);
-    }
-
-    private void makeCircle(GraphicsContext gc, double width, double height) {
-        gc.setStroke(strokeColor);
-        gc.setFill(fillColor);
-        gc.setLineWidth(size);
-        gc.fillOval(anchor1X, anchor1Y, width, height);
-        gc.strokeOval(anchor1X, anchor1Y, width, height);
-    }
-
-    private void makeTriangle(GraphicsContext gc, double mouseX, double mouseY) {
-        double[] xArray = {anchor1X, mouseX, anchor1X - (anchor1X - mouseX) * 2};
-        double[] yArray = {anchor1Y, mouseY, anchor1Y};
-        gc.setStroke(strokeColor);
-        gc.setFill(fillColor);
-        gc.setLineWidth(size);
-        gc.fillPolygon(xArray, yArray, 3);
-        gc.strokePolygon(xArray, yArray, 3);
+    private void editAndDrawShape(GraphicsContext gc, Shape shape, double height, double width) {
+        shape.setStartX(anchor1X);
+        shape.setStartY(anchor1Y);
+        shape.setEndX(width);
+        shape.setEndY(height);
+        shape.setFill(fillColor);
+        shape.setStroke(strokeColor);
+        shape.setSize(size);
+        shape.draw(gc);
     }
 
 

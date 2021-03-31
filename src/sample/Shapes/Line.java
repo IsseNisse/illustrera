@@ -16,7 +16,8 @@ public class Line extends Shape {
 
     }
 
-    private void calculateArea() {
+    @Override
+    public void calculateArea() {
         double width = getSize();
         int a = (int) (getEndX() - getStartX());
         int b = (int) (getEndY() - getStartY());

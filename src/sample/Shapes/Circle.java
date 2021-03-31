@@ -15,6 +15,7 @@ public class Circle extends Shape {
         type();
     }
 
+    @Override
     public void calculateArea() {
         double radius1 = (getEndX() - getStartX())/2;
         double radius2 = (getEndY() - getStartY())/2;

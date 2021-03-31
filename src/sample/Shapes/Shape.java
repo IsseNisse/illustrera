@@ -147,6 +147,10 @@ public class Shape {
         gc.setStroke(stroke);
     }
 
+    public void calculateArea() {
+        setArea(width * height);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
