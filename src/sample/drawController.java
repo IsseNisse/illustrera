@@ -37,6 +37,8 @@ public class drawController {
 
     private double anchor1X;
     private double anchor1Y;
+    private double mouseXStart = 0;
+    private double mouseYStart = 0;
 
     private String drawFunction = "drawLine";
     private boolean keyPressed;
@@ -51,6 +53,7 @@ public class drawController {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         double mouseX = mouseEvent.getX();
         double mouseY = mouseEvent.getY();
+        drawAllShapes(gc);
 
         switch (drawFunction) {
             case "drawLine":
@@ -102,40 +105,50 @@ public class drawController {
     private void select(double mouseX, double mouseY, MouseEvent mouseEvent, GraphicsContext gc) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
         int shapeIndex = 0;
-        double mouseXStart = 0;
-        double mouseYStart = 0;
+        double xDifference = 0;
+        double yDifference = 0;
         Shape selectedShape = null;
-        if (eventType.getName().equals("MOUSE_PRESSED")) {
-            for (Shape shape : shapes) {
-                if (mouseX >= shape.getStartX() && mouseX <= (shape.getEndX() + shape.getStartX())) {
-                    if (mouseY >= shape.getStartY() && mouseY <= (shape.getEndY() + shape.getStartY())) {
-                        selectedShapes.add(shape);
-                        mouseXStart = mouseX;
-                        mouseYStart = mouseY;
+        if (!eventType.getName().equals("MOUSE_RELEASED")) {
+            if (eventType.getName().equals("MOUSE_PRESSED")) {
+                for (Shape shape : shapes) {
+                    if (mouseX >= shape.getStartX() && mouseX <= (shape.getEndX() + shape.getStartX())) {
+                        if (mouseY >= shape.getStartY() && mouseY <= (shape.getEndY() + shape.getStartY())) {
+                            selectedShapes.add(shape);
+                            mouseXStart = mouseX;
+                            mouseYStart = mouseY;
+                            System.out.println(mouseXStart + " " + mouseYStart);
+                        } else {
+                            System.out.println("Ingenting");
+                        }
                     } else {
                         System.out.println("Ingenting");
                     }
-                } else {
-                    System.out.println("Ingenting");
                 }
-            }
-            if (selectedShapes.size() == 1) {
-                selectedShape = selectedShapes.get(0);
-            } else if (selectedShapes.size() > 1){
-                selectedShape = selectedShapes.get(selectedShapes.size() - 1);
-            }
-            shapeIndex = shapes.indexOf(selectedShape);
-            System.out.println(shapeIndex);
-            selectedShapes.clear();
-            if (!eventType.getName().equals("MOUSE_RELEASED")) {
-                Shape shape = shapes.get(shapeIndex);
-                shape.setStartX(mouseXStart);
-                shape.setStartY(mouseYStart);
-                shape.setEndX(mouseX);
-                shape.setEndY(mouseY);
-                drawAllShapes(gc);
+                if (selectedShapes.size() == 1) {
+                    selectedShape = selectedShapes.get(0);
+                } else if (selectedShapes.size() > 1){
+                    selectedShape = selectedShapes.get(selectedShapes.size() - 1);
+                }
+
+                shapeIndex = shapes.indexOf(selectedShape);
             }
         }
+        double xRelease;
+        double yRelease;
+
+        xRelease = mouseX;
+        yRelease = mouseY;
+
+        xDifference = xRelease - mouseXStart;
+        yDifference = yRelease - mouseYStart;
+        System.out.println("Release:" + xRelease +" " + yRelease);
+        System.out.println("Start: " + mouseXStart +" " + mouseYStart);
+        System.out.println("Diff: " + xDifference + " " + yDifference);
+        Shape shape = shapes.get(shapeIndex);
+        shape.setStartX(shape.getStartX() + xDifference);
+        shape.setStartY(shape.getStartY() + yDifference);
+        shape.setEndX(shape.getEndX() + xDifference);
+        shape.setEndY(shape.getEndY() + yDifference);
     }
 
 
