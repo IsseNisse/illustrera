@@ -29,7 +29,7 @@ public class drawController {
     private static final Stack<Image> savedImages = new Stack<>();
     private final Stack<Image> savedLines = new Stack<>();
     public static ArrayList<Shape> shapes = new ArrayList<>();
-    private ArrayList<Shape> selectedShapes = new ArrayList<>();
+    private final ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private int size = 10;
     private Color strokeColor = Color.BLACK;
@@ -66,7 +66,7 @@ public class drawController {
 //                drawTriangle(mouseX, mouseY, mouseEvent);
 //                break;
             case "select":
-                select(mouseX, mouseY, mouseEvent);
+                select(mouseX, mouseY, mouseEvent, gc);
                 break;
         }
     }
@@ -99,20 +99,41 @@ public class drawController {
 //        shapeDraw(mouseX, mouseY, eventType, shape);
 //    }
 
-    private void select(double mouseX, double mouseY, MouseEvent mouseEvent) {
+    private void select(double mouseX, double mouseY, MouseEvent mouseEvent, GraphicsContext gc) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
+        int shapeIndex = 0;
+        double mouseXStart = 0;
+        double mouseYStart = 0;
+        Shape selectedShape = null;
         if (eventType.getName().equals("MOUSE_PRESSED")) {
             for (Shape shape : shapes) {
-
                 if (mouseX >= shape.getStartX() && mouseX <= (shape.getEndX() + shape.getStartX())) {
                     if (mouseY >= shape.getStartY() && mouseY <= (shape.getEndY() + shape.getStartY())) {
-                        System.out.println("Form");
+                        selectedShapes.add(shape);
+                        mouseXStart = mouseX;
+                        mouseYStart = mouseY;
                     } else {
                         System.out.println("Ingenting");
                     }
                 } else {
                     System.out.println("Ingenting");
                 }
+            }
+            if (selectedShapes.size() == 1) {
+                selectedShape = selectedShapes.get(0);
+            } else if (selectedShapes.size() > 1){
+                selectedShape = selectedShapes.get(selectedShapes.size() - 1);
+            }
+            shapeIndex = shapes.indexOf(selectedShape);
+            System.out.println(shapeIndex);
+            selectedShapes.clear();
+            if (!eventType.getName().equals("MOUSE_RELEASED")) {
+                Shape shape = shapes.get(shapeIndex);
+                shape.setStartX(mouseXStart);
+                shape.setStartY(mouseYStart);
+                shape.setEndX(mouseX);
+                shape.setEndY(mouseY);
+                drawAllShapes(gc);
             }
         }
     }
@@ -277,7 +298,7 @@ public class drawController {
         savedImages.clear();
     }
 
-    public void drawAllShapes(GraphicsContext gc) {
+    public static void drawAllShapes(GraphicsContext gc) {
         for (Shape shape : shapes) {
             shape.draw(gc);
         }
