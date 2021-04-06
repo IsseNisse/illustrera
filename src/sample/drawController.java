@@ -118,10 +118,10 @@ public class drawController {
                             mouseXStart = mouseX;
                             mouseYStart = mouseY;
                         } else {
-                            System.out.println("Ingenting");
+                            selectedShapes.clear();
                         }
                     } else {
-                        System.out.println("Ingenting");
+                        selectedShapes.clear();
                     }
                 }
                 if (selectedShapes.size() == 1) {
@@ -131,7 +131,7 @@ public class drawController {
                 }
 
             }
-        } else {
+        } else if (!selectedShapes.isEmpty()){
 
             shapeIndex = shapes.indexOf(selectedShape);
             double xRelease;
