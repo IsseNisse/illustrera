@@ -18,8 +18,8 @@ public class Rectangle extends Shape {
 
     @Override
     public void calculateArea() {
-        double width = getStartX() - getEndX();
-        double height = getStartY() - getEndY();
+        double width = getEndX() - getStartX();
+        double height = getEndY() - getStartY();
         super.setArea(width * height);
     }
 

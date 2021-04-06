@@ -132,23 +132,21 @@ public class drawController {
 
                 shapeIndex = shapes.indexOf(selectedShape);
             }
+        } else {
+
+            double xRelease;
+            double yRelease;
+
+            xRelease = mouseX;
+            yRelease = mouseY;
+
+            xDifference = xRelease - mouseXStart;
+            yDifference = yRelease - mouseYStart;
+            Shape shape = shapes.get(shapeIndex);
+            shape.setStartX(shape.getStartX() + xDifference);
+            shape.setStartY(shape.getStartY() + yDifference);
+            shape.draw(gc);
         }
-        double xRelease;
-        double yRelease;
-
-        xRelease = mouseX;
-        yRelease = mouseY;
-
-        xDifference = xRelease - mouseXStart;
-        yDifference = yRelease - mouseYStart;
-        System.out.println("Release:" + xRelease +" " + yRelease);
-        System.out.println("Start: " + mouseXStart +" " + mouseYStart);
-        System.out.println("Diff: " + xDifference + " " + yDifference);
-        Shape shape = shapes.get(shapeIndex);
-        shape.setStartX(shape.getStartX() + xDifference);
-        shape.setStartY(shape.getStartY() + yDifference);
-        shape.setEndX(shape.getEndX() + xDifference);
-        shape.setEndY(shape.getEndY() + yDifference);
     }
 
 
