@@ -43,6 +43,8 @@ public class drawController {
     private String drawFunction = "drawLine";
     private boolean keyPressed;
 
+    private Shape selectedShape = null;
+
 
     public void draw(javafx.scene.input.MouseEvent mouseEvent) {
 
@@ -107,7 +109,6 @@ public class drawController {
         int shapeIndex = 0;
         double xDifference = 0;
         double yDifference = 0;
-        Shape selectedShape = null;
         if (!eventType.getName().equals("MOUSE_RELEASED")) {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 for (Shape shape : shapes) {
@@ -116,7 +117,6 @@ public class drawController {
                             selectedShapes.add(shape);
                             mouseXStart = mouseX;
                             mouseYStart = mouseY;
-                            System.out.println(mouseXStart + " " + mouseYStart);
                         } else {
                             System.out.println("Ingenting");
                         }
@@ -130,10 +130,10 @@ public class drawController {
                     selectedShape = selectedShapes.get(selectedShapes.size() - 1);
                 }
 
-                shapeIndex = shapes.indexOf(selectedShape);
             }
         } else {
 
+            shapeIndex = shapes.indexOf(selectedShape);
             double xRelease;
             double yRelease;
 
