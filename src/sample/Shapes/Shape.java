@@ -3,9 +3,10 @@ package sample.Shapes;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Shape {
+public class Shape implements java.io.Serializable {
     private Color fill = Color.TRANSPARENT;
     private Color stroke = Color.BLACK;
     private double size = 10;

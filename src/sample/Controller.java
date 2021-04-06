@@ -6,9 +6,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import sample.Shapes.*;
 import javafx.stage.FileChooser;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 
 public class Controller {
@@ -51,8 +50,10 @@ public class Controller {
                 String extension = fileChooser.getSelectedExtensionFilter().getExtensions().get(0).replaceFirst("(?:\\*)", "");
                 if (extension.equals(".svg")) {
                     writeSVG(file, shapes, extension);
+                    System.out.println("SVG");
                 } else if (extension.equals(".ilu")) {
                     writeILU(file, shapes);
+                    System.out.println("ILU");
                 }
             } catch (IOException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -68,7 +69,17 @@ public class Controller {
     }
 
     private static void writeILU(File file, ArrayList<Shape> shapes) {
-
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file + ".ilu");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            for (Shape shape : shapes) {
+                out.writeObject(shape);
+            }
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void writeSVG(File file, ArrayList<Shape> shapes, String extension) throws IOException {
