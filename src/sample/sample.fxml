@@ -26,6 +26,11 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </Button>
+            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#openBtn" text="Open">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </Button>
         </items>
       </ToolBar>
       <Canvas fx:id="canvas" height="1040.0" onMouseDragged="#draw" onMousePressed="#draw" onMouseReleased="#draw" width="1800.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />

@@ -39,32 +39,21 @@ public class Controller {
     public static void saveBtn(Image image) {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle("Save File");
+        FileChooser.ExtensionFilter svgFilter = new FileChooser.ExtensionFilter("SVG (*.svg)", "*.svg");
+        FileChooser.ExtensionFilter iluFilter = new FileChooser.ExtensionFilter("Illustrera (*.ilu)", "*.ilu");
+        fileChooser.getExtensionFilters().add(svgFilter);
+        fileChooser.getExtensionFilters().add(iluFilter);
         File file = fileChooser.showSaveDialog(loader.getRoot());
         if (file != null) {
             try {
                 ArrayList<Shape> shapes = drawController.shapes;
-                FileWriter svgWriter = new FileWriter(file + ".svg");
-                svgWriter.append("<svg height=\"1040\" width=\"1820\">");
-                for (Shape shape : shapes) {
-                    if (shape.getType().equals("Line")) {
-                        Line line = (Line)shape;
-                        String strokeColor = getStrokeColor(shape);
-                        svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getEndX())).append("\" y2=\"").append(String.valueOf(line.getEndY())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append("\" />\n");
-                    } else if (shape.getType().equals("Circle")) {
-                        Circle circle = (Circle)shape;
-                        String strokeColor = getStrokeColor(shape);
-                        String fillColor = getFillColor(shape);
-                        svgWriter.append("<circle cx=\"").append(String.valueOf(circle.getCenterX())).append("\" cy=\"").append(String.valueOf(circle.getCenterY())).append("\" rx=\"").append(String.valueOf(circle.getWidth())).append("\" ry=\"").append(String.valueOf(circle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append("\" />\n");
-                    } else if (shape.getType().equals("Rectangle")) {
-                        Rectangle rectangle = (Rectangle)shape;
-                        String strokeColor = getStrokeColor(shape);
-                        String fillColor = getFillColor(shape);
-                        svgWriter.append("<rect x=\"").append(String.valueOf(rectangle.getStartX())).append("\" y=\"").append(String.valueOf(rectangle.getStartY())).append("\" width=\"").append(String.valueOf(rectangle.getWidth())).append("\" height=\"").append(String.valueOf(rectangle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append("\" />\n");
-                    }
+                String extension = fileChooser.getSelectedExtensionFilter().getExtensions().get(0).replaceFirst("(?:\\*)", "");
+                if (extension.equals(".svg")) {
+                    writeSVG(file, shapes, extension);
+                } else if (extension.equals(".ilu")) {
+                    writeILU(file, shapes);
                 }
-                svgWriter.append("</svg>");
-                svgWriter.close();
             } catch (IOException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -76,6 +65,34 @@ public class Controller {
                 });
             }
         }
+    }
+
+    private static void writeILU(File file, ArrayList<Shape> shapes) {
+
+    }
+
+    private static void writeSVG(File file, ArrayList<Shape> shapes, String extension) throws IOException {
+        FileWriter svgWriter = new FileWriter(file + extension);
+        svgWriter.append("<svg height=\"1040\" width=\"1820\">");
+        for (Shape shape : shapes) {
+            if (shape.getType().equals("Line")) {
+                Line line = (Line)shape;
+                String strokeColor = getStrokeColor(shape);
+                svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getEndX())).append("\" y2=\"").append(String.valueOf(line.getEndY())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append("\" />\n");
+            } else if (shape.getType().equals("Circle")) {
+                Circle circle = (Circle)shape;
+                String strokeColor = getStrokeColor(shape);
+                String fillColor = getFillColor(shape);
+                svgWriter.append("<circle cx=\"").append(String.valueOf(circle.getCenterX())).append("\" cy=\"").append(String.valueOf(circle.getCenterY())).append("\" rx=\"").append(String.valueOf(circle.getWidth())).append("\" ry=\"").append(String.valueOf(circle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append("\" />\n");
+            } else if (shape.getType().equals("Rectangle")) {
+                Rectangle rectangle = (Rectangle)shape;
+                String strokeColor = getStrokeColor(shape);
+                String fillColor = getFillColor(shape);
+                svgWriter.append("<rect x=\"").append(String.valueOf(rectangle.getStartX())).append("\" y=\"").append(String.valueOf(rectangle.getStartY())).append("\" width=\"").append(String.valueOf(rectangle.getWidth())).append("\" height=\"").append(String.valueOf(rectangle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append("\" />\n");
+            }
+        }
+        svgWriter.append("</svg>");
+        svgWriter.close();
     }
 
     private static String getStrokeColor(Shape shape) {

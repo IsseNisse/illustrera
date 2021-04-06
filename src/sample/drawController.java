@@ -134,8 +134,6 @@ public class drawController {
                     selectedShape = selectedShapes.get(selectedShapes.size() - 1);
                 }
 
-                System.out.println(selectedShape);
-
             }
         } else if (!selectedShapes.isEmpty()){
 
