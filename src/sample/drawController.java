@@ -106,29 +106,35 @@ public class drawController {
 
     private void select(double mouseX, double mouseY, MouseEvent mouseEvent, GraphicsContext gc) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        int shapeIndex = 0;
-        double xDifference = 0;
-        double yDifference = 0;
+        int shapeIndex;
+        double xDifference;
+        double yDifference;
         if (!eventType.getName().equals("MOUSE_RELEASED")) {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 for (Shape shape : shapes) {
                     if (mouseX >= shape.getStartX() && mouseX <= (shape.getEndX() + shape.getStartX())) {
                         if (mouseY >= shape.getStartY() && mouseY <= (shape.getEndY() + shape.getStartY())) {
+                            if (!selectedShapes.isEmpty()) {
+                                selectedShapes.clear();
+                            }
                             selectedShapes.add(shape);
                             mouseXStart = mouseX;
                             mouseYStart = mouseY;
                         } else {
-                            selectedShapes.clear();
+                            System.out.println("Nope");
                         }
                     } else {
-                        selectedShapes.clear();
+                        System.out.println("Nope");
                     }
                 }
+
                 if (selectedShapes.size() == 1) {
                     selectedShape = selectedShapes.get(0);
                 } else if (selectedShapes.size() > 1){
                     selectedShape = selectedShapes.get(selectedShapes.size() - 1);
                 }
+
+                System.out.println(selectedShape);
 
             }
         } else if (!selectedShapes.isEmpty()){
@@ -145,7 +151,9 @@ public class drawController {
             Shape shape = shapes.get(shapeIndex);
             shape.setStartX(shape.getStartX() + xDifference);
             shape.setStartY(shape.getStartY() + yDifference);
-            shape.draw(gc);
+            drawAllShapes(gc);
+
+            selectedShapes.clear();
         }
     }
 
@@ -309,7 +317,8 @@ public class drawController {
         savedImages.clear();
     }
 
-    public static void drawAllShapes(GraphicsContext gc) {
+    public void drawAllShapes(GraphicsContext gc) {
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Shape shape : shapes) {
             shape.draw(gc);
         }
