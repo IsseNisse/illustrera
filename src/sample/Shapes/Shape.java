@@ -3,12 +3,11 @@ package sample.Shapes;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class Shape implements java.io.Serializable {
-    private Color fill = Color.TRANSPARENT;
-    private Color stroke = Color.BLACK;
+    private SerializableColor fill = new SerializableColor(Color.TRANSPARENT);
+    private SerializableColor stroke = new SerializableColor(Color.BLACK);
     private double size = 10;
     private double area;
     private double startX;
@@ -36,19 +35,19 @@ public class Shape implements java.io.Serializable {
     }
 
     public Color getFill() {
-        return fill;
+        return fill.getFXColor();
     }
 
     public void setFill(Color fill) {
-        this.fill = fill;
+        this.fill = new SerializableColor(fill);
     }
 
     public Color getStroke() {
-        return stroke;
+        return stroke.getFXColor();
     }
 
     public void setStroke(Color stroke) {
-        this.stroke = stroke;
+        this.stroke = new SerializableColor(stroke);
     }
 
     public double getArea() {
@@ -145,7 +144,7 @@ public class Shape implements java.io.Serializable {
 
 
     public void draw(GraphicsContext gc) {
-        gc.setStroke(stroke);
+        gc.setStroke(stroke.getFXColor());
     }
 
     public void calculateArea() {
