@@ -15,7 +15,6 @@ import sample.Shapes.*;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class drawController {
 
@@ -114,8 +113,8 @@ public class drawController {
         if (!eventType.getName().equals("MOUSE_RELEASED")) {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 for (Shape shape : shapes) {
-                    if (mouseX >= shape.getStartX() && mouseX <= (shape.getEndX() + shape.getStartX())) {
-                        if (mouseY >= shape.getStartY() && mouseY <= (shape.getEndY() + shape.getStartY())) {
+                    if (mouseX >= shape.getStartX() && mouseX <= (shape.getWidth() + shape.getStartX())) {
+                        if (mouseY >= shape.getStartY() && mouseY <= (shape.getHeight() + shape.getStartY())) {
                             if (!selectedShapes.isEmpty()) {
                                 selectedShapes.clear();
                             }
@@ -208,8 +207,8 @@ public class drawController {
     private void editAndDrawShape(GraphicsContext gc, Shape shape, double height, double width) {
         shape.setStartX(anchor1X);
         shape.setStartY(anchor1Y);
-        shape.setEndX(width);
-        shape.setEndY(height);
+        shape.setWidth(width);
+        shape.setHeight(height);
         shape.setFill(fillColor);
         shape.setStroke(strokeColor);
         shape.setSize(size);

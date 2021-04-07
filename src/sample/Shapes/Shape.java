@@ -12,26 +12,24 @@ public class Shape implements java.io.Serializable {
     private double area;
     private double startX;
     private double startY;
-    private double endX;
-    private double endY;
-    private double centerX;
-    private double centerY;
     private double width;
     private double height;
+    private double centerX;
+    private double centerY;
     private String type;
 
-    public Shape(double startX, double startY, double endX, double endY) {
+    public Shape(double startX, double startY, double width, double height) {
         this.startX = startX;
         this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
+        this.width = width;
+        this.height = height;
     }
 
     public Shape() {
         this.startX = 0;
         this.startY = 0;
-        this.endX = 0;
-        this.endY = 0;
+        this.width = 0;
+        this.height = 0;
     }
 
     public Color getFill() {
@@ -48,6 +46,14 @@ public class Shape implements java.io.Serializable {
 
     public void setStroke(Color stroke) {
         this.stroke = new SerializableColor(stroke);
+    }
+
+    public double getFillOpacity() {
+        return fill.getAlpha();
+    }
+
+    public double getStrokeOpacity() {
+        return stroke.getAlpha();
     }
 
     public double getArea() {
@@ -74,20 +80,20 @@ public class Shape implements java.io.Serializable {
         this.startY = startY;
     }
 
-    public double getEndX() {
-        return endX;
+    public double getWidth() {
+        return width;
     }
 
-    public void setEndX(double endX) {
-        this.endX = endX;
+    public void setWidth(double width) {
+        this.width = width;
     }
 
-    public double getEndY() {
-        return endY;
+    public double getHeight() {
+        return height;
     }
 
-    public void setEndY(double endY) {
-        this.endY = endY;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public double getCenterX() {
@@ -106,24 +112,6 @@ public class Shape implements java.io.Serializable {
 
     public void setCenterY(double centerY) {
         this.centerY = centerY;
-    }
-
-    public double getWidth() {
-        width = endX - startX;
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public double getHeight() {
-        height = endY - startY;
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     public double getSize() {
@@ -156,11 +144,11 @@ public class Shape implements java.io.Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shape shape = (Shape) o;
-        return Double.compare(shape.size, size) == 0 && Double.compare(shape.area, area) == 0 && Double.compare(shape.startX, startX) == 0 && Double.compare(shape.startY, startY) == 0 && Double.compare(shape.endX, endX) == 0 && Double.compare(shape.endY, endY) == 0 && Double.compare(shape.centerX, centerX) == 0 && Double.compare(shape.centerY, centerY) == 0 && Double.compare(shape.width, width) == 0 && Double.compare(shape.height, height) == 0 && Objects.equals(fill, shape.fill) && Objects.equals(stroke, shape.stroke) && Objects.equals(type, shape.type);
+        return Double.compare(shape.size, size) == 0 && Double.compare(shape.area, area) == 0 && Double.compare(shape.startX, startX) == 0 && Double.compare(shape.startY, startY) == 0 && Double.compare(shape.width, width) == 0 && Double.compare(shape.height, height) == 0 && Double.compare(shape.centerX, centerX) == 0 && Double.compare(shape.centerY, centerY) == 0 && Double.compare(shape.width, width) == 0 && Double.compare(shape.height, height) == 0 && Objects.equals(fill, shape.fill) && Objects.equals(stroke, shape.stroke) && Objects.equals(type, shape.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fill, stroke, size, area, startX, startY, endX, endY, centerX, centerY, width, height, type);
+        return Objects.hash(fill, stroke, size, area, startX, startY, width, height, centerX, centerY, width, height, type);
     }
 }

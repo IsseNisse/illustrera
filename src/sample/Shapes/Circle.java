@@ -17,11 +17,29 @@ public class Circle extends Shape {
 
     @Override
     public void calculateArea() {
-        double radius1 = (getEndX() - getStartX())/2;
-        double radius2 = (getEndY() - getStartY())/2;
+        double radius1 = (getWidth() - getStartX())/2;
+        double radius2 = (getHeight() - getStartY())/2;
 
         double area = Math.PI * radius1 * radius2;
         super.setArea(area);
+    }
+
+    @Override
+    public double getCenterX() {
+        return getStartX() + (getWidth()/2);
+    }
+
+    public double getXRadius() {
+        return getWidth()/2;
+    }
+
+    public double getYRadius() {
+        return getHeight()/2;
+    }
+
+    @Override
+    public double getCenterY() {
+        return getStartY() + (getHeight()/2);
     }
 
     private void type() {
@@ -33,7 +51,7 @@ public class Circle extends Shape {
         gc.setStroke(getStroke());
         gc.setFill(getFill());
         gc.setLineWidth(getSize());
-        gc.fillOval(getStartX(), getStartY(), getEndX(), getEndY());
-        gc.strokeOval(getStartX(), getStartY(), getEndX(), getEndY());
+        gc.fillOval(getStartX(), getStartY(), getWidth(), getHeight());
+        gc.strokeOval(getStartX(), getStartY(), getWidth(), getHeight());
     }
 }

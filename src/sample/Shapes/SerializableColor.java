@@ -26,4 +26,8 @@ public class SerializableColor implements Serializable {
     public Color getFXColor() {
         return new Color(red, green, blue, alpha);
     }
+
+    public double getAlpha() {
+        return this.alpha;
+    }
 }

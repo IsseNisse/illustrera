@@ -18,8 +18,8 @@ public class Rectangle extends Shape {
 
     @Override
     public void calculateArea() {
-        double width = getEndX() - getStartX();
-        double height = getEndY() - getStartY();
+        double width = getWidth() - getStartX();
+        double height = getHeight() - getStartY();
         super.setArea(width * height);
     }
 
@@ -32,7 +32,7 @@ public class Rectangle extends Shape {
         gc.setStroke(getStroke());
         gc.setFill(getFill());
         gc.setLineWidth(getSize());
-        gc.fillRect(getStartX(), getStartY(), getEndX(), getEndY());
-        gc.strokeRect(getStartX(), getStartY(), getEndX(), getEndY());
+        gc.fillRect(getStartX(), getStartY(), getWidth(), getHeight());
+        gc.strokeRect(getStartX(), getStartY(), getWidth(), getHeight());
     }
 }

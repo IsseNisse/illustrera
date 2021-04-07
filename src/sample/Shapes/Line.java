@@ -19,8 +19,8 @@ public class Line extends Shape {
     @Override
     public void calculateArea() {
         double width = getSize();
-        int a = (int) (getEndX() - getStartX());
-        int b = (int) (getEndY() - getStartY());
+        int a = (int) (getWidth() - getStartX());
+        int b = (int) (getHeight() - getStartY());
         int height = a^2 + b^2;
 
         super.setArea(width*height);
@@ -34,6 +34,6 @@ public class Line extends Shape {
     public void draw(GraphicsContext gc) {
         gc.setStroke(getStroke());
         gc.setLineWidth(getSize());
-        gc.strokeLine(getStartX(), getStartY(), getEndX(), getEndY());
+        gc.strokeLine(getStartX(), getStartY(), getWidth(), getHeight());
     }
 }
