@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    public static Image openBtn() {
+    public static Image openBtn() throws IOException {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -32,9 +32,23 @@ public class Controller {
                 }
             });
         } else {
-            Image openImage = new Image(file.toURI().toString());
-            drawController.emptySavedImages();
-            return openImage;
+            if (getFileExtension(file).equals(".svg")) {
+                Image openImage = new Image(file.toURI().toString());
+                drawController.emptySavedImages();
+                return openImage;
+            } else if (getFileExtension(file).equals(".ilu")) {
+                FileInputStream fileIn = null;
+                ObjectInputStream in = null;
+                try {
+                    fileIn = new FileInputStream(file);
+                    in = new ObjectInputStream(fileIn);
+                    drawController.shapes = (ArrayList<Shape>) in.readObject();
+                    in.close();
+                    fileIn.close();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
@@ -72,7 +86,7 @@ public class Controller {
         }
     }
 
-    private String getFileExtension(File file) {
+    private static String getFileExtension(File file) {
         String name = file.getName();
         int lastIndexOf = name.lastIndexOf(".");
         if (lastIndexOf == -1) {
@@ -85,9 +99,7 @@ public class Controller {
         try {
             FileOutputStream fileOut = new FileOutputStream(file + ".ilu");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            for (Shape shape : shapes) {
-                out.writeObject(shape);
-            }
+            out.writeObject(shapes);
             out.close();
             fileOut.close();
         } catch (IOException e) {

@@ -13,7 +13,9 @@ import javafx.scene.paint.Color;
 //import javafx.scene.shape.*;
 import sample.Shapes.*;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class drawController {
 
@@ -295,8 +297,16 @@ public class drawController {
 
     /* Button Actions */
     public void openBtn(ActionEvent actionEvent) {
-        Image image = Controller.openBtn();
-        canvas.getGraphicsContext2D().drawImage(image, 0, 0);
+        try {
+            if (Controller.openBtn() != null) {
+                Image image = Controller.openBtn();
+                canvas.getGraphicsContext2D().drawImage(image, 0, 0);
+            } else {
+                drawAllShapes(canvas.getGraphicsContext2D());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveBtn(ActionEvent actionEvent) {
