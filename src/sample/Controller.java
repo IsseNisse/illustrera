@@ -16,6 +16,10 @@ public class Controller {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
+        FileChooser.ExtensionFilter iluFilter = new FileChooser.ExtensionFilter("Illustrera (*.ilu)", "*.ilu");
+        FileChooser.ExtensionFilter svgFilter = new FileChooser.ExtensionFilter("SVG (*.svg)", "*.svg");
+        fileChooser.getExtensionFilters().add(iluFilter);
+        fileChooser.getExtensionFilters().add(svgFilter);
         File file = fileChooser.showOpenDialog(loader.getRoot());
 
         if (file == null) {
@@ -39,10 +43,10 @@ public class Controller {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
-        FileChooser.ExtensionFilter svgFilter = new FileChooser.ExtensionFilter("SVG (*.svg)", "*.svg");
         FileChooser.ExtensionFilter iluFilter = new FileChooser.ExtensionFilter("Illustrera (*.ilu)", "*.ilu");
-        fileChooser.getExtensionFilters().add(svgFilter);
+        FileChooser.ExtensionFilter svgFilter = new FileChooser.ExtensionFilter("SVG (*.svg)", "*.svg");
         fileChooser.getExtensionFilters().add(iluFilter);
+        fileChooser.getExtensionFilters().add(svgFilter);
         File file = fileChooser.showSaveDialog(loader.getRoot());
         if (file != null) {
             try {
@@ -66,6 +70,15 @@ public class Controller {
                 });
             }
         }
+    }
+
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return "";
+        }
+        return name.substring(lastIndexOf);
     }
 
     private static void writeILU(File file, ArrayList<Shape> shapes) {

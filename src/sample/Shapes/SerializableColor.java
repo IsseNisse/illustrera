@@ -4,10 +4,10 @@ import java.io.Serializable;
 import javafx.scene.paint.Color;
 
 public class SerializableColor implements Serializable {
-    private double red;
-    private double green;
-    private double blue;
-    private double alpha;
+    private final double red;
+    private final double green;
+    private final double blue;
+    private final double alpha;
 
     public SerializableColor(Color color) {
         this.red = color.getRed();
