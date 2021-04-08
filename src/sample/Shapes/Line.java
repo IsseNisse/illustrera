@@ -23,7 +23,14 @@ public class Line extends Shape {
         int b = (int) (getHeight() - getStartY());
         int height = a^2 + b^2;
 
-        super.setArea(width*height);
+        super.setArea(width*Math.sqrt(height));
+    }
+
+    public double getHypotenuse() {
+        int a = (int) (getWidth() - getStartX());
+        int b = (int) (getHeight() - getStartY());
+        int height = a^2 + b^2;
+        return Math.sqrt(height);
     }
 
     private void type() {

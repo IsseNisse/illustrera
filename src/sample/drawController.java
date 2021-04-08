@@ -120,6 +120,7 @@ public class drawController {
                             selectedShapes.add(shape);
                             mouseXStart = mouseX;
                             mouseYStart = mouseY;
+                            System.out.println("Form");
                         } else {
                             System.out.println("Nope");
                         }
