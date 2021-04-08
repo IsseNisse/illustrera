@@ -35,6 +35,7 @@ public class Controller {
             if (getFileExtension(file).equals(".svg")) {
                 Image openImage = new Image(file.toURI().toString());
                 drawController.emptySavedImages();
+                System.out.println(openImage);
                 return openImage;
             } else if (getFileExtension(file).equals(".ilu")) {
                 FileInputStream fileIn = null;

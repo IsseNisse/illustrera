@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-//import javafx.scene.shape.*;
 import sample.Shapes.*;
 
 import java.io.IOException;
@@ -148,8 +147,15 @@ public class drawController {
             xDifference = xRelease - mouseXStart;
             yDifference = yRelease - mouseYStart;
             Shape shape = shapes.get(shapeIndex);
-            shape.setStartX(shape.getStartX() + xDifference);
-            shape.setStartY(shape.getStartY() + yDifference);
+            if (shape.getType().equals("Line")) {
+                shape.setStartX(shape.getStartX() + xDifference);
+                shape.setStartY(shape.getStartY() + yDifference);
+                shape.setWidth(shape.getWidth() + xDifference);
+                shape.setHeight(shape.getHeight() + yDifference);
+            } else {
+                shape.setStartX(shape.getStartX() + xDifference);
+                shape.setStartY(shape.getStartY() + yDifference);
+            }
             drawAllShapes(gc);
 
             selectedShapes.clear();
@@ -297,8 +303,8 @@ public class drawController {
     /* Button Actions */
     public void openBtn(ActionEvent actionEvent) {
         try {
-            if (Controller.openBtn() != null) {
-                Image image = Controller.openBtn();
+            Image image = Controller.openBtn();
+            if (image != null) {
                 canvas.getGraphicsContext2D().drawImage(image, 0, 0);
             } else {
                 drawAllShapes(canvas.getGraphicsContext2D());
