@@ -110,6 +110,13 @@ public class Shape implements java.io.Serializable {
         return centerY;
     }
 
+    public double getHypotenuse() {
+        int a = (int) (getWidth());
+        int b = (int) (getHeight());
+        int height = a^2 + b^2;
+        return Math.sqrt(height);
+    }
+
     public void setCenterY(double centerY) {
         this.centerY = centerY;
     }

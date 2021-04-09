@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
@@ -112,8 +113,13 @@ public class drawController {
         if (!eventType.getName().equals("MOUSE_RELEASED")) {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 for (Shape shape : shapes) {
-                    if (mouseX >= shape.getStartX() && mouseX <= (shape.getWidth() + shape.getStartX())) {
-                        if (mouseY >= shape.getStartY() && mouseY <= (shape.getHeight() + shape.getStartY())) {
+                    if (shape.getType().equals("Line")) {
+                        System.out.println("Line");
+                        double tilt = Math.atan(shape.getWidth() - shape.getStartX())/(shape.getHeight() - shape.getStartY());
+                        Point2D mousePos = new Point2D(mouseX, mouseY);
+                        javafx.scene.shape.Rectangle rec = new javafx.scene.shape.Rectangle(shape.getStartX(), shape.getStartY(), shape.getSize(), shape.getHypotenuse());
+                        rec.setRotate(tilt);
+                        if (rec.contains(mousePos)) {
                             if (!selectedShapes.isEmpty()) {
                                 selectedShapes.clear();
                             }
@@ -121,11 +127,23 @@ public class drawController {
                             mouseXStart = mouseX;
                             mouseYStart = mouseY;
                             System.out.println("Form");
+                        }
+                    } else {
+                        if (mouseX >= shape.getStartX() && mouseX <= (shape.getWidth() + shape.getStartX())) {
+                            if (mouseY >= shape.getStartY() && mouseY <= (shape.getHeight() + shape.getStartY())) {
+                                if (!selectedShapes.isEmpty()) {
+                                    selectedShapes.clear();
+                                }
+                                selectedShapes.add(shape);
+                                mouseXStart = mouseX;
+                                mouseYStart = mouseY;
+                                System.out.println("Form");
+                            } else {
+                                System.out.println("Nope");
+                            }
                         } else {
                             System.out.println("Nope");
                         }
-                    } else {
-                        System.out.println("Nope");
                     }
                 }
 
