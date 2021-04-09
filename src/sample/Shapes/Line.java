@@ -30,7 +30,7 @@ public class Line extends Shape {
     public double getHypotenuse() {
         int a = (int) (getWidth() - getStartX());
         int b = (int) (getHeight() - getStartY());
-        int height = a^2 + b^2;
+        double height = Math.pow(a, 2) + Math.pow(b, 2);
         return Math.sqrt(height);
     }
 

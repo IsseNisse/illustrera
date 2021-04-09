@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 import sample.Shapes.*;
 
 import java.io.IOException;
@@ -114,19 +115,18 @@ public class drawController {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 for (Shape shape : shapes) {
                     if (shape.getType().equals("Line")) {
-                        System.out.println("Line");
-                        double tilt = Math.atan(shape.getWidth() - shape.getStartX())/(shape.getHeight() - shape.getStartY());
+                        double tilt = Math.atan((shape.getWidth() - shape.getStartX())/(shape.getHeight() - shape.getStartY()));
                         Point2D mousePos = new Point2D(mouseX, mouseY);
-                        javafx.scene.shape.Rectangle rec = new javafx.scene.shape.Rectangle(shape.getStartX(), shape.getStartY(), shape.getSize(), shape.getHypotenuse());
-                        rec.setRotate(tilt);
-                        if (rec.contains(mousePos)) {
+                        javafx.scene.shape.Line line = new javafx.scene.shape.Line(shape.getStartX(), shape.getStartY(), shape.getWidth(), shape.getHeight());
+                        line.setStrokeWidth(shape.getSize());
+                        line.getTransforms().add(new Rotate(Math.toDegrees(tilt), line.getStartX(), line.getStartY()));
+                        if (line.contains(mousePos)) {
                             if (!selectedShapes.isEmpty()) {
                                 selectedShapes.clear();
                             }
                             selectedShapes.add(shape);
                             mouseXStart = mouseX;
                             mouseYStart = mouseY;
-                            System.out.println("Form");
                         }
                     } else {
                         if (mouseX >= shape.getStartX() && mouseX <= (shape.getWidth() + shape.getStartX())) {
@@ -137,7 +137,6 @@ public class drawController {
                                 selectedShapes.add(shape);
                                 mouseXStart = mouseX;
                                 mouseYStart = mouseY;
-                                System.out.println("Form");
                             } else {
                                 System.out.println("Nope");
                             }
