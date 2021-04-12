@@ -146,6 +146,11 @@ public class Shape implements java.io.Serializable {
         setArea(width * height);
     }
 
+    public void drawSelection(GraphicsContext gc) {
+        gc.setStroke(Color.BLACK);
+        gc.strokeRect(this.startX + size + 20, this.startY + size + 20, this.width + size + 20, this.height + size + 20);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
