@@ -1,6 +1,7 @@
 package sample.Shapes;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class Line extends Shape {
     public Line(double startX, double startY, double endX, double endY) {
@@ -42,6 +43,15 @@ public class Line extends Shape {
     public void draw(GraphicsContext gc) {
         gc.setStroke(getStroke());
         gc.setLineWidth(getSize());
+        gc.strokeLine(getStartX(), getStartY(), getWidth(), getHeight());
+    }
+
+    @Override
+    public void drawSelection(GraphicsContext gc) {
+        final double[] dashPattern = {4, 4, 4, 4, 4};
+        gc.setStroke(Color.GRAY);
+        gc.setLineWidth(2);
+        gc.setLineDashes(dashPattern);
         gc.strokeLine(getStartX(), getStartY(), getWidth(), getHeight());
     }
 }

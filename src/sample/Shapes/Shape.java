@@ -3,6 +3,7 @@ package sample.Shapes;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.Array;
 import java.util.Objects;
 
 public class Shape implements java.io.Serializable {
@@ -147,8 +148,11 @@ public class Shape implements java.io.Serializable {
     }
 
     public void drawSelection(GraphicsContext gc) {
-        gc.setStroke(Color.BLACK);
-        gc.strokeRect(this.startX + size + 20, this.startY + size + 20, this.width + size + 20, this.height + size + 20);
+        final double[] dashPattern = {4, 4, 4, 4, 4};
+        gc.setStroke(Color.GRAY);
+        gc.setLineWidth(2);
+        gc.setLineDashes(dashPattern);
+        gc.strokeRect(this.startX - 10, this.startY - 10, this.width + 20, this.height + 20);
     }
 
     @Override

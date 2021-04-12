@@ -172,10 +172,10 @@ public class drawController {
                 shape.setHeight(shape.getHeight() + yDifference);
             } else {
                 shape.setStartX(shape.getStartX() + xDifference);
-                shape.setStartY(shape.getStartY() + yDifference);h
+                shape.setStartY(shape.getStartY() + yDifference);
             }
-            shape.drawSelection(gc);
             drawAllShapes(gc);
+            shape.drawSelection(gc);
 
             selectedShapes.clear();
         }
