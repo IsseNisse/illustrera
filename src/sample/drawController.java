@@ -29,7 +29,8 @@ public class drawController {
     private ColorPicker fillColorPicker;
 
     private final Stack<Image> savedLines = new Stack<>();
-    public static ArrayList<Shape> shapes = new ArrayList<>();
+    public ArrayList<Shape> shapes = new ArrayList<>();
+    public ArrayList<ArrayList<Shape>> latestCreatedShapesList = new ArrayList<>();
     private final ArrayList<Shape> selectedShapes = new ArrayList<>();
 
     private int size = 10;
@@ -172,6 +173,8 @@ public class drawController {
         xRelease = mouseX;
         yRelease = mouseY;
 
+        ArrayList<Shape> latestShapes = new ArrayList<>(shapes);
+        latestCreatedShapesList.add(latestShapes);
         xDifference = xRelease - mouseXStart;
         yDifference = yRelease - mouseYStart;
         Shape shape = shapes.get(shapeIndex);
@@ -184,6 +187,7 @@ public class drawController {
             shape.setStartX(shape.getStartX() + xDifference);
             shape.setStartY(shape.getStartY() + yDifference);
         }
+
         return shape;
     }
 
@@ -226,6 +230,8 @@ public class drawController {
             }
 
             editAndDrawShape(gc, shape, height, width);
+            ArrayList<Shape> latestShapes = new ArrayList<>(shapes);
+            latestCreatedShapesList.add(latestShapes);
             shapes.add(shape);
         }
     }
@@ -244,7 +250,7 @@ public class drawController {
     /* Undo function */
     public void undo(ActionEvent actionEvent) {
         if (!shapes.isEmpty()) {
-            shapes.remove(shapes.size() - 1);
+            shapes = latestCreatedShapesList.remove(latestCreatedShapesList.size() - 1);
             GraphicsContext gc = canvas.getGraphicsContext2D();
             drawAllShapes(gc);
         }
@@ -304,23 +310,19 @@ public class drawController {
     public void size80(ActionEvent actionEvent) {
         size = 80;
     }
-    
+
     /* Button Actions */
     public void openBtn(ActionEvent actionEvent) {
         try {
-            Image image = Controller.openBtn();
-            if (image != null) {
-                canvas.getGraphicsContext2D().drawImage(image, 0, 0);
-            } else {
-                drawAllShapes(canvas.getGraphicsContext2D());
-            }
+            shapes = Controller.openBtn();
+            drawAllShapes(canvas.getGraphicsContext2D());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void saveBtn(ActionEvent actionEvent) {
-        Controller.saveBtn();
+        Controller.saveBtn(shapes);
     }
 
     public void keyPressed(KeyEvent keyEvent) {

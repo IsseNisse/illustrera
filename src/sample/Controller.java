@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    public static Image openBtn() throws IOException {
+    public static ArrayList<Shape> openBtn() throws IOException {
+        ArrayList<Shape> shapes = new ArrayList<>();
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -36,7 +37,7 @@ public class Controller {
                 try {
                     fileIn = new FileInputStream(file);
                     in = new ObjectInputStream(fileIn);
-                    drawController.shapes = (ArrayList<Shape>) in.readObject();
+                    shapes = (ArrayList<Shape>) in.readObject();
                     in.close();
                     fileIn.close();
                 } catch (IOException | ClassNotFoundException e) {
@@ -44,10 +45,10 @@ public class Controller {
                 }
             }
         }
-        return null;
+        return shapes;
     }
 
-    public static void saveBtn() {
+    public static void saveBtn(ArrayList<Shape> shapes) {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
@@ -58,7 +59,6 @@ public class Controller {
         File file = fileChooser.showSaveDialog(loader.getRoot());
         if (file != null) {
             try {
-                ArrayList<Shape> shapes = drawController.shapes;
                 String extension = fileChooser.getSelectedExtensionFilter().getExtensions().get(0).replaceFirst("\\*", "");
                 if (extension.equals(".svg")) {
                     writeSVG(file, shapes, extension);
