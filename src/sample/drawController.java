@@ -50,10 +50,6 @@ public class drawController {
 
     public void draw(javafx.scene.input.MouseEvent mouseEvent) {
 
-        if (savedImages.empty()) {
-            makeSnapshot(savedImages);
-        }
-
         GraphicsContext gc = canvas.getGraphicsContext2D();
         double mouseX = mouseEvent.getX();
         double mouseY = mouseEvent.getY();
@@ -190,7 +186,6 @@ public class drawController {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 anchor1X = mouseX;
                 anchor1Y = mouseY;
-                makeSnapshot(savedLines);
             } else if (eventType.getName().equals("MOUSE_DRAGGED")) {
                 if (!savedLines.empty()) {
                     Image undoImage = savedLines.get(savedLines.size() - 1);
@@ -223,9 +218,6 @@ public class drawController {
 
             editAndDrawShape(gc, shape, height, width);
             shapes.add(shape);
-
-            /* save snapshot */
-            makeSnapshot(savedImages);
         }
     }
 
@@ -241,18 +233,12 @@ public class drawController {
     }
 
 
-    /* Make a snapshot function */
-    private void makeSnapshot(Stack<Image> savedImages) {
-        Image snapshot = canvas.snapshot(null, null);
-        savedImages.push(snapshot);
-    }
-
-
     /* Undo function */
     public void undo(ActionEvent actionEvent) {
-        if (!savedImages.empty()) {
-            Image undoImage = savedImages.pop();
-            canvas.getGraphicsContext2D().drawImage(undoImage, 0, 0);
+        if (!shapes.isEmpty()) {
+            shapes.remove(shapes.size() - 1);
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+            drawAllShapes(gc);
         }
     }
 
@@ -334,9 +320,7 @@ public class drawController {
     }
 
     public void saveBtn(ActionEvent actionEvent) {
-        makeSnapshot(savedImages);
-        Image latestImage = savedImages.lastElement();
-        Controller.saveBtn(latestImage);
+        Controller.saveBtn();
     }
 
     public void keyPressed(KeyEvent keyEvent) {

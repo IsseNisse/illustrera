@@ -54,7 +54,7 @@ public class Controller {
         return null;
     }
 
-    public static void saveBtn(Image image) {
+    public static void saveBtn() {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("sample.fxml"));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
