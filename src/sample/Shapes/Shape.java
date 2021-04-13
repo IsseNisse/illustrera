@@ -152,7 +152,7 @@ public class Shape implements java.io.Serializable {
         gc.setStroke(Color.GRAY);
         gc.setLineWidth(2);
         gc.setLineDashes(dashPattern);
-        gc.strokeRect(this.startX - 10, this.startY - 10, this.width + 20, this.height + 20);
+        gc.strokeRect(this.startX - this.size/2 - 10, this.startY - this.size/2 - 10, this.width + this.size + 20, this.height + this.size + 20);
     }
 
     @Override

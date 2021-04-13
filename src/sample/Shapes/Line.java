@@ -52,6 +52,6 @@ public class Line extends Shape {
         gc.setStroke(Color.GRAY);
         gc.setLineWidth(2);
         gc.setLineDashes(dashPattern);
-        gc.strokeLine(getStartX(), getStartY(), getWidth(), getHeight());
+        gc.strokeRect(getStartX() - getSize()/2 - 20, getStartY() - getSize()/2 - 20, getWidth() - getStartX() + getSize() + 35, getHeight() - getStartY() + getSize() + 35);
     }
 }
