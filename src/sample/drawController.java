@@ -28,7 +28,6 @@ public class drawController {
     @FXML
     private ColorPicker fillColorPicker;
 
-    private static final Stack<Image> savedImages = new Stack<>();
     private final Stack<Image> savedLines = new Stack<>();
     public static ArrayList<Shape> shapes = new ArrayList<>();
     private final ArrayList<Shape> selectedShapes = new ArrayList<>();
@@ -46,7 +45,6 @@ public class drawController {
     private boolean keyPressed;
 
     private Shape selectedShape = null;
-
 
     public void draw(javafx.scene.input.MouseEvent mouseEvent) {
 
@@ -73,7 +71,6 @@ public class drawController {
                 break;
         }
     }
-
 
     /* Functions for different types of drawing */
 
@@ -104,41 +101,13 @@ public class drawController {
 
     private void select(double mouseX, double mouseY, MouseEvent mouseEvent, GraphicsContext gc) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        int shapeIndex;
-        double xDifference;
-        double yDifference;
         if (!eventType.getName().equals("MOUSE_RELEASED")) {
             if (eventType.getName().equals("MOUSE_PRESSED")) {
                 for (Shape shape : shapes) {
                     if (shape.getType().equals("Line")) {
-                        double tilt = Math.atan((shape.getWidth() - shape.getStartX())/(shape.getHeight() - shape.getStartY()));
-                        Point2D mousePos = new Point2D(mouseX, mouseY);
-                        javafx.scene.shape.Line line = new javafx.scene.shape.Line(shape.getStartX(), shape.getStartY(), shape.getWidth(), shape.getHeight());
-                        line.setStrokeWidth(shape.getSize());
-                        line.getTransforms().add(new Rotate(Math.toDegrees(tilt), line.getStartX(), line.getStartY()));
-                        if (line.contains(mousePos)) {
-                            if (!selectedShapes.isEmpty()) {
-                                selectedShapes.clear();
-                            }
-                            selectedShapes.add(shape);
-                            mouseXStart = mouseX;
-                            mouseYStart = mouseY;
-                        }
+                        lineClickDetection(mouseX, mouseY, shape);
                     } else {
-                        if (mouseX >= shape.getStartX() && mouseX <= (shape.getWidth() + shape.getStartX())) {
-                            if (mouseY >= shape.getStartY() && mouseY <= (shape.getHeight() + shape.getStartY())) {
-                                if (!selectedShapes.isEmpty()) {
-                                    selectedShapes.clear();
-                                }
-                                selectedShapes.add(shape);
-                                mouseXStart = mouseX;
-                                mouseYStart = mouseY;
-                            } else {
-                                System.out.println("Nope");
-                            }
-                        } else {
-                            System.out.println("Nope");
-                        }
+                        shapeClickDetection(mouseX, mouseY, shape);
                     }
                 }
 
@@ -151,25 +120,7 @@ public class drawController {
             }
         } else if (!selectedShapes.isEmpty()){
 
-            shapeIndex = shapes.indexOf(selectedShape);
-            double xRelease;
-            double yRelease;
-
-            xRelease = mouseX;
-            yRelease = mouseY;
-
-            xDifference = xRelease - mouseXStart;
-            yDifference = yRelease - mouseYStart;
-            Shape shape = shapes.get(shapeIndex);
-            if (shape.getType().equals("Line")) {
-                shape.setStartX(shape.getStartX() + xDifference);
-                shape.setStartY(shape.getStartY() + yDifference);
-                shape.setWidth(shape.getWidth() + xDifference);
-                shape.setHeight(shape.getHeight() + yDifference);
-            } else {
-                shape.setStartX(shape.getStartX() + xDifference);
-                shape.setStartY(shape.getStartY() + yDifference);
-            }
+            Shape shape = changeShapePos(mouseX, mouseY);
             drawAllShapes(gc);
             shape.drawSelection(gc);
 
@@ -177,6 +128,64 @@ public class drawController {
         }
     }
 
+    private void lineClickDetection(double mouseX, double mouseY, Shape shape) {
+        double tilt = Math.atan((shape.getWidth() - shape.getStartX())/(shape.getHeight() - shape.getStartY()));
+        Point2D mousePos = new Point2D(mouseX, mouseY);
+        javafx.scene.shape.Line line = new javafx.scene.shape.Line(shape.getStartX(), shape.getStartY(), shape.getWidth(), shape.getHeight());
+        line.setStrokeWidth(shape.getSize());
+        line.getTransforms().add(new Rotate(Math.toDegrees(tilt), line.getStartX(), line.getStartY()));
+        if (line.contains(mousePos)) {
+            if (!selectedShapes.isEmpty()) {
+                selectedShapes.clear();
+            }
+            selectedShapes.add(shape);
+            mouseXStart = mouseX;
+            mouseYStart = mouseY;
+        }
+    }
+
+    private void shapeClickDetection(double mouseX, double mouseY, Shape shape) {
+        if (mouseX >= shape.getStartX() && mouseX <= (shape.getWidth() + shape.getStartX())) {
+            if (mouseY >= shape.getStartY() && mouseY <= (shape.getHeight() + shape.getStartY())) {
+                if (!selectedShapes.isEmpty()) {
+                    selectedShapes.clear();
+                }
+                selectedShapes.add(shape);
+                mouseXStart = mouseX;
+                mouseYStart = mouseY;
+            } else {
+                System.out.println("Nope");
+            }
+        } else {
+            System.out.println("Nope");
+        }
+    }
+
+    private Shape changeShapePos(double mouseX, double mouseY) {
+        double yDifference;
+        int shapeIndex;
+        double xDifference;
+        shapeIndex = shapes.indexOf(selectedShape);
+        double xRelease;
+        double yRelease;
+
+        xRelease = mouseX;
+        yRelease = mouseY;
+
+        xDifference = xRelease - mouseXStart;
+        yDifference = yRelease - mouseYStart;
+        Shape shape = shapes.get(shapeIndex);
+        if (shape.getType().equals("Line")) {
+            shape.setStartX(shape.getStartX() + xDifference);
+            shape.setStartY(shape.getStartY() + yDifference);
+            shape.setWidth(shape.getWidth() + xDifference);
+            shape.setHeight(shape.getHeight() + yDifference);
+        } else {
+            shape.setStartX(shape.getStartX() + xDifference);
+            shape.setStartY(shape.getStartY() + yDifference);
+        }
+        return shape;
+    }
 
     /* Function for general shape drawing and animation */
     private void shapeDraw(GraphicsContext gc, double mouseX, double mouseY, EventType<? extends MouseEvent> eventType, Shape shape) {
@@ -231,8 +240,7 @@ public class drawController {
         shape.setSize(size);
         shape.draw(gc);
     }
-
-
+    
     /* Undo function */
     public void undo(ActionEvent actionEvent) {
         if (!shapes.isEmpty()) {
@@ -241,7 +249,6 @@ public class drawController {
             drawAllShapes(gc);
         }
     }
-
 
     /* Get Color Picker value */
     public void strokeColorPicker(ActionEvent actionEvent) {
@@ -253,8 +260,7 @@ public class drawController {
         Color colorValue = fillColorPicker.getValue();
         fillColor = Color.web(colorValue.toString());
     }
-
-
+    
     /* Buttons for changing drawing type */
 
     public void selectBtn(ActionEvent actionEvent) {
@@ -273,14 +279,9 @@ public class drawController {
         drawFunction = "drawCircle";
     }
 
-    public void triangleBtn(ActionEvent actionEvent) {
-        drawFunction = "drawTriangle";
-    }
-
-    public void eraserBtn(ActionEvent actionEvent) {
-        drawFunction = "erase";
-    }
-
+//    public void triangleBtn(ActionEvent actionEvent) {
+//        drawFunction = "drawTriangle";
+//    }
 
     /* Size buttons */
 
@@ -303,8 +304,7 @@ public class drawController {
     public void size80(ActionEvent actionEvent) {
         size = 80;
     }
-
-
+    
     /* Button Actions */
     public void openBtn(ActionEvent actionEvent) {
         try {
@@ -325,12 +325,6 @@ public class drawController {
 
     public void keyPressed(KeyEvent keyEvent) {
         keyPressed = keyEvent.isShiftDown();
-    }
-
-    /* Remove all saved Images */
-
-    public static void emptySavedImages() {
-        savedImages.clear();
     }
 
     public void drawAllShapes(GraphicsContext gc) {
