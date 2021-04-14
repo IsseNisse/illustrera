@@ -7,6 +7,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -27,6 +28,9 @@ public class drawController {
 
     @FXML
     private ColorPicker fillColorPicker;
+
+    @FXML
+    private TextField textField;
 
     private final Stack<Image> savedLines = new Stack<>();
     public ArrayList<Shape> shapes = new ArrayList<>();
@@ -155,11 +159,7 @@ public class drawController {
                 selectedShapes.add(shape);
                 mouseXStart = mouseX;
                 mouseYStart = mouseY;
-            } else {
-                System.out.println("Nope");
             }
-        } else {
-            System.out.println("Nope");
         }
     }
 
@@ -309,22 +309,38 @@ public class drawController {
 
     public void size10(ActionEvent actionEvent) {
         size = 10;
+        textField.setText(size + "px");
     }
 
     public void size15(ActionEvent actionEvent) {
         size = 15;
+        textField.setText(size + "px");
     }
 
     public void size25(ActionEvent actionEvent) {
         size = 25;
+        textField.setText(size + "px");
     }
 
     public void size40(ActionEvent actionEvent) {
         size = 40;
+        textField.setText(size + "px");
     }
 
     public void size80(ActionEvent actionEvent) {
         size = 80;
+        textField.setText(size + "px");
+    }
+
+    public void sizeCustom(ActionEvent actionEvent) {
+        String inputText = textField.getText();
+        int index = inputText.length();
+        if (inputText.contains("px")) {
+            index = inputText.indexOf("p");
+        }
+        String sizeString = inputText.substring(0, index);
+        size = Integer.parseInt(sizeString);
+        textField.setText(size + "px");
     }
 
     /* Button Actions */
@@ -351,5 +367,4 @@ public class drawController {
             shape.draw(gc);
         }
     }
-
 }

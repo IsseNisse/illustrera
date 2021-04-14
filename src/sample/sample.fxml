@@ -87,6 +87,9 @@
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
+               <graphic>
+                  <TextField fx:id="textField" onAction="#sizeCustom" text="10px" />
+               </graphic>
             </MenuButton>
          </items>
       </ToolBar>
