@@ -31,6 +31,20 @@ public class Shape implements java.io.Serializable {
         this.height = 0;
     }
 
+    public Shape(Shape shape) {
+        this.fill = shape.fill;
+        this.stroke = shape.stroke;
+        this.size = shape.getSize();
+        this.area = shape.getArea();
+        this.startX = shape.getStartX();
+        this.startY = shape.getStartY();
+        this.width = shape.getWidth();
+        this.height = shape.getHeight();
+        this.centerX = shape.centerX;
+        this.centerY = shape.centerY;
+        this.type = shape.type;
+    }
+
     public Color getFill() {
         return fill.getFXColor();
     }
@@ -139,6 +153,7 @@ public class Shape implements java.io.Serializable {
 
     public void draw(GraphicsContext gc) {
         gc.setStroke(stroke.getFXColor());
+        gc.setFill(fill.getFXColor());
     }
 
     public void calculateArea() {

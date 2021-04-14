@@ -45,6 +45,7 @@ public class drawController {
     private String drawFunction = "drawLine";
     private boolean keyPressed;
 
+    private Shape prevShape = null;
     private Shape selectedShape = null;
 
     public void draw(javafx.scene.input.MouseEvent mouseEvent) {
@@ -164,9 +165,8 @@ public class drawController {
 
     private Shape changeShapePos(double mouseX, double mouseY) {
         double yDifference;
-        int shapeIndex;
         double xDifference;
-        shapeIndex = shapes.indexOf(selectedShape);
+        int shapeIndex = shapes.indexOf(selectedShape);
         double xRelease;
         double yRelease;
 
@@ -177,18 +177,34 @@ public class drawController {
         latestCreatedShapesList.add(latestShapes);
         xDifference = xRelease - mouseXStart;
         yDifference = yRelease - mouseYStart;
-        Shape shape = shapes.get(shapeIndex);
-        if (shape.getType().equals("Line")) {
-            shape.setStartX(shape.getStartX() + xDifference);
-            shape.setStartY(shape.getStartY() + yDifference);
-            shape.setWidth(shape.getWidth() + xDifference);
-            shape.setHeight(shape.getHeight() + yDifference);
-        } else {
-            shape.setStartX(shape.getStartX() + xDifference);
-            shape.setStartY(shape.getStartY() + yDifference);
+        Shape shape = shapes.remove(shapeIndex);
+        Shape newPos = new Shape();
+        switch (shape.getType()) {
+            case "Line":
+                newPos = new Line(shape);
+                break;
+            case "Rectangle":
+                newPos = new Rectangle(shape);
+                break;
+            case "Circle":
+                newPos = new Circle(shape);
+                break;
         }
+        if (shape.getType().equals("Line")) {
+            newPos.setStartX(shape.getStartX() + xDifference);
+            newPos.setStartY(shape.getStartY() + yDifference);
+            newPos.setWidth(shape.getWidth() + xDifference);
+            newPos.setHeight(shape.getHeight() + yDifference);
+            shapes.add(shapeIndex, newPos);
+        } else {
+            newPos.setStartX(shape.getStartX() + xDifference);
+            newPos.setStartY(shape.getStartY() + yDifference);
+            shapes.add(shapeIndex, newPos);
+        }
+        System.out.println(newPos.getType());
+        drawAllShapes(canvas.getGraphicsContext2D());
 
-        return shape;
+        return newPos;
     }
 
     /* Function for general shape drawing and animation */

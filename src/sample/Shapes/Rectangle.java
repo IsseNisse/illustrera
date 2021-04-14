@@ -16,6 +16,20 @@ public class Rectangle extends Shape {
         type();
     }
 
+    public Rectangle(Shape shape) {
+        setFill(shape.getFill());
+        setStroke(shape.getStroke());
+        setSize(shape.getSize());
+        setArea(shape.getArea());
+        setStartX(shape.getStartX());
+        setStartY(shape.getStartY());
+        setWidth(shape.getWidth());
+        setHeight(shape.getHeight());
+        setCenterX(shape.getCenterX());
+        setCenterY(shape.getCenterY());
+        setType(shape.getType());
+    }
+
     @Override
     public void calculateArea() {
         double width = getWidth() - getStartX();
