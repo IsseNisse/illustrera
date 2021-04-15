@@ -340,6 +340,9 @@ public class drawController {
         }
         String sizeString = inputText.substring(0, index);
         size = Integer.parseInt(sizeString);
+        if (size > 899) {
+            size = 899;
+        }
         textField.setText(size + "px");
     }
 

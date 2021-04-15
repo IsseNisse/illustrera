@@ -73,7 +73,7 @@
             </ColorPicker>
         </items>
       </ToolBar>
-      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
+      <ToolBar minHeight="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2">
          <items>
             <Button mnemonicParsing="false" onAction="#undo" text="Undo" />
             <MenuButton mnemonicParsing="false" text="Size">
@@ -88,7 +88,7 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
                <graphic>
-                  <TextField fx:id="textField" onAction="#sizeCustom" text="10px" />
+                  <TextField fx:id="textField" maxWidth="-Infinity" onAction="#sizeCustom" prefWidth="80.0" text="10px" />
                </graphic>
             </MenuButton>
          </items>
