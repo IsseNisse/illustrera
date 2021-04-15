@@ -4,13 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import sample.Shapes.*;
@@ -31,6 +33,9 @@ public class drawController {
 
     @FXML
     private TextField textField;
+
+    @FXML
+    private GridPane gridPane;
 
     private final Stack<Image> savedLines = new Stack<>();
     public ArrayList<Shape> shapes = new ArrayList<>();
@@ -81,21 +86,27 @@ public class drawController {
 
     public void drawLine(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        Line line = new Line();
-        drawAllShapes(gc);
-        shapeDraw(gc, mouseX, mouseY, eventType, line);
+        if (mouseEvent.getButton().toString().equals("PRIMARY")) {
+            Line line = new Line();
+            drawAllShapes(gc);
+            shapeDraw(gc, mouseX, mouseY, eventType, line);
+        }
     }
 
     private void drawSquare(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        Rectangle rec = new Rectangle();
-        shapeDraw(gc, mouseX, mouseY, eventType, rec);
+        if (mouseEvent.getButton().toString().equals("PRIMARY")) {
+            Rectangle rec = new Rectangle();
+            shapeDraw(gc, mouseX, mouseY, eventType, rec);
+        }
     }
 
     private void drawCircle(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        Circle circle = new Circle();
-        shapeDraw(gc, mouseX, mouseY, eventType, circle);
+        if (mouseEvent.getButton().toString().equals("PRIMARY")) {
+            Circle circle = new Circle();
+            shapeDraw(gc, mouseX, mouseY, eventType, circle);
+        }
     }
 
 //    private void drawTriangle(double mouseX, double mouseY, MouseEvent mouseEvent) {
@@ -106,30 +117,33 @@ public class drawController {
 
     private void select(double mouseX, double mouseY, MouseEvent mouseEvent, GraphicsContext gc) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-        if (!eventType.getName().equals("MOUSE_RELEASED")) {
-            if (eventType.getName().equals("MOUSE_PRESSED")) {
-                for (Shape shape : shapes) {
-                    if (shape.getType().equals("Line")) {
-                        lineClickDetection(mouseX, mouseY, shape);
-                    } else {
-                        shapeClickDetection(mouseX, mouseY, shape);
+        if (mouseEvent.getButton().toString().equals("PRIMARY")) {
+            if (!eventType.getName().equals("MOUSE_RELEASED")) {
+                if (eventType.getName().equals("MOUSE_PRESSED")) {
+                    for (Shape shape : shapes) {
+                        if (shape.getType().equals("Line")) {
+                            lineClickDetection(mouseX, mouseY, shape);
+                        } else {
+                            shapeClickDetection(mouseX, mouseY, shape);
+                        }
                     }
-                }
 
-                if (selectedShapes.size() == 1) {
-                    selectedShape = selectedShapes.get(0);
-                } else if (selectedShapes.size() > 1){
-                    selectedShape = selectedShapes.get(selectedShapes.size() - 1);
-                }
+                    if (selectedShapes.size() == 1) {
+                        selectedShape = selectedShapes.get(0);
+                    } else if (selectedShapes.size() > 1){
+                        selectedShape = selectedShapes.get(selectedShapes.size() - 1);
+                    }
 
+                }
+            } else if (!selectedShapes.isEmpty()){
+
+                Shape shape = changeShapePos(mouseX, mouseY);
+                drawAllShapes(gc);
+                shape.drawSelection(gc);
+
+                selectedShapes.clear();
             }
-        } else if (!selectedShapes.isEmpty()){
-
-            Shape shape = changeShapePos(mouseX, mouseY);
-            drawAllShapes(gc);
-            shape.drawSelection(gc);
-
-            selectedShapes.clear();
+        } else if (mouseEvent.getButton().toString().equals("SECONDARY")) {
         }
     }
 
