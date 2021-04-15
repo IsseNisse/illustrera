@@ -3,11 +3,14 @@ package sample;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import sample.Shapes.*;
 import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Controller {
 
@@ -30,7 +33,7 @@ public class Controller {
             });
         } else {
             if (getFileExtension(file).equals(".svg")) {
-                // Svg converter
+                svgToShapesConverter(file);
             } else if (getFileExtension(file).equals(".ilu")) {
                 FileInputStream fileIn;
                 ObjectInputStream in;
@@ -46,6 +49,115 @@ public class Controller {
             }
         }
         return shapes;
+    }
+
+    public static ArrayList<Shape> svgToShapesConverter(File file) {
+        ArrayList<Shape> svgShapes = new ArrayList<>();
+
+        try {
+            Scanner svgReader = new Scanner(file);
+            while (svgReader.hasNextLine()) {
+                String nextLine = svgReader.nextLine();
+                if (nextLine.contains("line")) {
+                    String[] searchString = {"x1", "y1", "x2", "y2"};
+                    double[] values = new double[searchString.length];
+                    for (int i = 0; i < searchString.length; i++) {
+                        int valueIndex = nextLine.indexOf(searchString[i]);
+                        int quoteIndex = nextLine.indexOf("\"", valueIndex + 4);
+                        double value = Double.parseDouble(nextLine.substring(valueIndex + 4, quoteIndex));
+                        values[i] = value;
+                    }
+
+                    String[] styleValues = getStyleValues(nextLine);
+
+                    Line line = new Line(values[0], values[1], values[2], values[3]);
+                    line.setStroke(Color.web(("0x" + styleValues[1]), Double.parseDouble(styleValues[4])));
+                    line.setFill(Color.web(("0x" + styleValues[0]), Double.parseDouble(styleValues[3])));
+                    line.setSize(Double.parseDouble(styleValues[2]));
+
+                    svgShapes.add(line);
+
+                } else if (nextLine.contains("rect")) {
+                    String[] searchString = {"x", "y"};
+                    double[] values = new double[searchString.length];
+                    for (int i = 0; i < searchString.length; i++) {
+                        int valueIndex = nextLine.indexOf(searchString[i]);
+                        int quoteIndex = nextLine.indexOf("\"", valueIndex + 3);
+                        double value = Double.parseDouble(nextLine.substring(valueIndex + 3, quoteIndex));
+                        values[i] = value;
+                    }
+
+                    int widthIndex = nextLine.indexOf("width=");
+                    int quoteIndex = nextLine.indexOf("\"", widthIndex + 8);
+                    double width = Double.parseDouble(nextLine.substring(widthIndex + 7, quoteIndex));
+                    int heightIndex = nextLine.indexOf("height=");
+                    quoteIndex = nextLine.indexOf("\"", heightIndex + 9);
+                    double height = Double.parseDouble(nextLine.substring(heightIndex + 8, quoteIndex));
+
+                    String[] styleValues = getStyleValues(nextLine);
+
+                    Rectangle rect = new Rectangle(values[0], values[1], width, height);
+                    rect.setStroke(Color.web(("0x" + styleValues[1]), Double.parseDouble(styleValues[4])));
+                    rect.setFill(Color.web(("0x" + styleValues[0]), Double.parseDouble(styleValues[3])));
+                    rect.setSize(Double.parseDouble(styleValues[2]));
+
+                    svgShapes.add(rect);
+                } else if (nextLine.contains("ellipse")) {
+                    String[] searchString = {"cx", "cy", "rx", "ry"};
+                    double[] values = new double[searchString.length];
+                    for (int i = 0; i < searchString.length; i++) {
+                        int valueIndex = nextLine.indexOf(searchString[i]);
+                        int quoteIndex = nextLine.indexOf("\"", valueIndex + 4);
+                        double value = Double.parseDouble(nextLine.substring(valueIndex + 4, quoteIndex));
+                        values[i] = value;
+                    }
+
+                    String[] styleValues = getStyleValues(nextLine);
+                    System.out.println(values[0] + " " + values[1] + " " + values[2] + " " + values[3]);
+                    System.out.println(styleValues[0] + " " + styleValues[1] + " " + styleValues[2] + " " + styleValues[3] + " " + styleValues[4]);
+
+                    Circle ellipse = new Circle(values[0], values[1], values[2], values[3]);
+                    ellipse.setStroke(Color.web(("0x" + styleValues[1]), Double.parseDouble(styleValues[4])));
+                    ellipse.setFill(Color.web(("0x" + styleValues[0]), Double.parseDouble(styleValues[3])));
+                    ellipse.setSize(Double.parseDouble(styleValues[2]));
+
+                    svgShapes.add(ellipse);
+                }
+                System.out.println(nextLine);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return svgShapes;
+    }
+
+    public static String[] getStyleValues(String nextLine) {
+        String[] styleValues = new String[5];
+
+        int fillIndex = nextLine.indexOf("fill:");
+        int endCharIndex = nextLine.indexOf(";", fillIndex);
+        String fillValue = nextLine.substring(fillIndex + 6, endCharIndex);
+        int strokeIndex= nextLine.indexOf("stroke:");
+        endCharIndex = nextLine.indexOf(";", strokeIndex);
+        String strokeValue = nextLine.substring(strokeIndex + 8, endCharIndex);
+        int strokeWidthIndex = nextLine.indexOf("stroke-width:");
+        endCharIndex = nextLine.indexOf(";", strokeWidthIndex);
+        double strokeWidth = Double.parseDouble(nextLine.substring(strokeWidthIndex + 13, endCharIndex));
+        int fillOpacityIndex = nextLine.indexOf("fill-opacity:");
+        endCharIndex = nextLine.indexOf(";", fillOpacityIndex);
+        double fillOpacity = Double.parseDouble(nextLine.substring(fillOpacityIndex + 13, endCharIndex));
+        int strokeOpacityIndex = nextLine.indexOf("stroke-opacity:");
+        endCharIndex = nextLine.indexOf(";", strokeOpacityIndex);
+        double strokeOpacity = Double.parseDouble(nextLine.substring(strokeOpacityIndex + 15, endCharIndex));
+
+        styleValues[0] = fillValue;
+        styleValues[1] = strokeValue;
+        styleValues[2] = Double.toString(strokeWidth);
+        styleValues[3] = Double.toString(fillOpacity);
+        styleValues[4] = Double.toString(strokeOpacity);
+
+        return styleValues;
     }
 
     public static void saveBtn(ArrayList<Shape> shapes) {
@@ -104,7 +216,8 @@ public class Controller {
                 case "Line": {
                     Line line = (Line) shape;
                     String strokeColor = getStrokeColor(shape);
-                    svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getWidth())).append("\" y2=\"").append(String.valueOf(line.getHeight())).append("\" style=\"stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";").append("\" />\n");
+                    String fillColor = getFillColor(shape);
+                    svgWriter.append("<line x1=\"").append(String.valueOf(line.getStartX())).append("\" y1=\"").append(String.valueOf(line.getStartY())).append("\" x2=\"").append(String.valueOf(line.getWidth())).append("\" y2=\"").append(String.valueOf(line.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";").append("\" />\n");
                     break;
                 }
                 case "Circle": {

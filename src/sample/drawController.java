@@ -37,7 +37,7 @@ public class drawController {
     public ArrayList<ArrayList<Shape>> latestCreatedShapesList = new ArrayList<>();
     private final ArrayList<Shape> selectedShapes = new ArrayList<>();
 
-    private int size = 10;
+    private double size = 10;
     private Color strokeColor = Color.BLACK;
     private Color fillColor = Color.TRANSPARENT;
 
