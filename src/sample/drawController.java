@@ -49,7 +49,6 @@ public class drawController {
     private String drawFunction = "drawLine";
     private boolean keyPressed;
 
-    private Shape prevShape = null;
     private Shape selectedShape = null;
 
     public void draw(javafx.scene.input.MouseEvent mouseEvent) {

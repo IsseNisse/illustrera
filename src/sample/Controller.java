@@ -2,9 +2,7 @@ package sample;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
 import sample.Shapes.*;
 import javafx.stage.FileChooser;
 
@@ -33,7 +31,7 @@ public class Controller {
             });
         } else {
             if (getFileExtension(file).equals(".svg")) {
-                svgToShapesConverter(file);
+                shapes = svgToShapesConverter(file);
             } else if (getFileExtension(file).equals(".ilu")) {
                 FileInputStream fileIn;
                 ObjectInputStream in;
