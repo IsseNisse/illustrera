@@ -141,9 +141,9 @@ public class drawController {
                 }
             } else if (!selectedShapes.isEmpty()){
 
-                Shape shape = changeShapePos(mouseX, mouseY);
+                selectedShape = changeShapePos(mouseX, mouseY);
                 drawAllShapes(gc);
-                shape.drawSelection(gc);
+                selectedShape.drawSelection(gc);
 
                 selectedShapes.clear();
             }
@@ -160,7 +160,37 @@ public class drawController {
             moveToBack.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("Cut...");
+                    shapes.remove(selectedShape);
+                    shapes.add(0, selectedShape);
+                    drawAllShapes(gc);
+                }
+            });
+            moveBack.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    int selectedShapeIndex = shapes.indexOf(selectedShape);
+                    Shape movedShape = shapes.get(selectedShapeIndex - 1);
+                    shapes.set(selectedShapeIndex - 1, selectedShape);
+                    shapes.set(selectedShapeIndex, movedShape);
+                    drawAllShapes(gc);
+                }
+            });
+            moveToFront.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    shapes.remove(selectedShape);
+                    shapes.add(shapes.size(), selectedShape);
+                    drawAllShapes(gc);
+                }
+            });
+            moveForward.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    int selectedShapeIndex = shapes.indexOf(selectedShape);
+                    Shape movedShape = shapes.get(selectedShapeIndex + 1);
+                    shapes.set(selectedShapeIndex + 1, selectedShape);
+                    shapes.set(selectedShapeIndex, movedShape);
+                    drawAllShapes(gc);
                 }
             });
         }
