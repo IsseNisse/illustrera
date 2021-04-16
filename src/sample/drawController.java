@@ -1,10 +1,13 @@
 package sample;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
+import javafx.geometry.Side;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -12,9 +15,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import sample.Shapes.*;
 
 import java.io.IOException;
@@ -144,6 +148,21 @@ public class drawController {
                 selectedShapes.clear();
             }
         } else if (mouseEvent.getButton().toString().equals("SECONDARY")) {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem moveToBack = new MenuItem("Move To back");
+            MenuItem moveBack = new MenuItem("Move Back");
+            MenuItem moveToFront = new MenuItem("Move To Front");
+            MenuItem moveForward = new MenuItem("Move To Forward");
+            contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
+            TextField textField = new TextField();
+            textField.setContextMenu(contextMenu);
+            contextMenu.show(canvas, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+            moveToBack.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println("Cut...");
+                }
+            });
         }
     }
 

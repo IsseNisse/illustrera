@@ -33,7 +33,7 @@
             </Button>
         </items>
       </ToolBar>
-      <Canvas fx:id="canvas" height="1040.0" onContextMenuRequested="#selectBtn" onMouseDragged="#draw" onMousePressed="#draw" onMouseReleased="#draw" width="1800.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+      <Canvas fx:id="canvas" height="1040.0" onMouseDragged="#draw" onMousePressed="#draw" onMouseReleased="#draw" width="1800.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
       <ToolBar maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="40.0" prefWidth="40.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
         <items>
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#selectBtn" text="Select">
