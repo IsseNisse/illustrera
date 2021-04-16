@@ -1,13 +1,10 @@
 package sample;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.geometry.Side;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -17,8 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import sample.Shapes.*;
 
 import java.io.IOException;
@@ -37,9 +32,6 @@ public class drawController {
 
     @FXML
     private TextField textField;
-
-    @FXML
-    private GridPane gridPane;
 
     private final Stack<Image> savedLines = new Stack<>();
     public ArrayList<Shape> shapes = new ArrayList<>();
@@ -82,6 +74,9 @@ public class drawController {
 //                break;
             case "select":
                 select(mouseX, mouseY, mouseEvent, gc);
+                break;
+            case "text":
+                createText(gc, mouseX, mouseY, mouseEvent);
                 break;
         }
     }
@@ -196,6 +191,15 @@ public class drawController {
         }
     }
 
+    private void createText(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
+        EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
+        if (mouseEvent.getButton().toString().equals("PRIMARY")) {
+            Text text = new Text("Hello World!");
+            drawAllShapes(gc);
+            shapeDraw(gc, mouseX, mouseY, eventType, text);
+        }
+    }
+
     private void lineClickDetection(double mouseX, double mouseY, Shape shape) {
         double tilt = Math.atan((shape.getWidth() - shape.getStartX())/(shape.getHeight() - shape.getStartY()));
         Point2D mousePos = new Point2D(mouseX, mouseY);
@@ -263,7 +267,6 @@ public class drawController {
             newPos.setStartY(shape.getStartY() + yDifference);
             shapes.add(shapeIndex, newPos);
         }
-        System.out.println(newPos.getType());
         drawAllShapes(canvas.getGraphicsContext2D());
 
         return newPos;
@@ -361,6 +364,10 @@ public class drawController {
 
     public void CircleBtn(ActionEvent actionEvent) {
         drawFunction = "drawCircle";
+    }
+
+    public void textBtn(ActionEvent actionEvent) {
+        drawFunction = "text";
     }
 
 //    public void triangleBtn(ActionEvent actionEvent) {
