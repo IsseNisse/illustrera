@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import sample.Shapes.*;
@@ -29,6 +28,9 @@ public class drawController {
 
     @FXML
     private ColorPicker fillColorPicker;
+
+    @FXML
+    private TextField sizeTextField;
 
     @FXML
     private TextField textField;
@@ -143,58 +145,62 @@ public class drawController {
                 selectedShapes.clear();
             }
         } else if (mouseEvent.getButton().toString().equals("SECONDARY")) {
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem moveToBack = new MenuItem("Move To back");
-            MenuItem moveBack = new MenuItem("Move Back");
-            MenuItem moveToFront = new MenuItem("Move To Front");
-            MenuItem moveForward = new MenuItem("Move To Forward");
-            contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
-            TextField textField = new TextField();
-            textField.setContextMenu(contextMenu);
-            contextMenu.show(canvas, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-            moveToBack.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    shapes.remove(selectedShape);
-                    shapes.add(0, selectedShape);
-                    drawAllShapes(gc);
-                }
-            });
-            moveBack.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    int selectedShapeIndex = shapes.indexOf(selectedShape);
-                    Shape movedShape = shapes.get(selectedShapeIndex - 1);
-                    shapes.set(selectedShapeIndex - 1, selectedShape);
-                    shapes.set(selectedShapeIndex, movedShape);
-                    drawAllShapes(gc);
-                }
-            });
-            moveToFront.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    shapes.remove(selectedShape);
-                    shapes.add(shapes.size(), selectedShape);
-                    drawAllShapes(gc);
-                }
-            });
-            moveForward.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    int selectedShapeIndex = shapes.indexOf(selectedShape);
-                    Shape movedShape = shapes.get(selectedShapeIndex + 1);
-                    shapes.set(selectedShapeIndex + 1, selectedShape);
-                    shapes.set(selectedShapeIndex, movedShape);
-                    drawAllShapes(gc);
-                }
-            });
+            showContextMenu(mouseEvent, gc);
         }
+    }
+
+    private void showContextMenu(MouseEvent mouseEvent, GraphicsContext gc) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem moveToBack = new MenuItem("Move To back");
+        MenuItem moveBack = new MenuItem("Move Back");
+        MenuItem moveToFront = new MenuItem("Move To Front");
+        MenuItem moveForward = new MenuItem("Move To Forward");
+        contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
+        TextField textField = new TextField();
+        textField.setContextMenu(contextMenu);
+        contextMenu.show(canvas, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+        moveToBack.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                shapes.remove(selectedShape);
+                shapes.add(0, selectedShape);
+                drawAllShapes(gc);
+            }
+        });
+        moveBack.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int selectedShapeIndex = shapes.indexOf(selectedShape);
+                Shape movedShape = shapes.get(selectedShapeIndex - 1);
+                shapes.set(selectedShapeIndex - 1, selectedShape);
+                shapes.set(selectedShapeIndex, movedShape);
+                drawAllShapes(gc);
+            }
+        });
+        moveToFront.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                shapes.remove(selectedShape);
+                shapes.add(shapes.size(), selectedShape);
+                drawAllShapes(gc);
+            }
+        });
+        moveForward.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int selectedShapeIndex = shapes.indexOf(selectedShape);
+                Shape movedShape = shapes.get(selectedShapeIndex + 1);
+                shapes.set(selectedShapeIndex + 1, selectedShape);
+                shapes.set(selectedShapeIndex, movedShape);
+                drawAllShapes(gc);
+            }
+        });
     }
 
     private void createText(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
         if (mouseEvent.getButton().toString().equals("PRIMARY")) {
-            Text text = new Text("Hello World!");
+            Text text = new Text(textField.getText());
             drawAllShapes(gc);
             shapeDraw(gc, mouseX, mouseY, eventType, text);
         }
@@ -378,31 +384,31 @@ public class drawController {
 
     public void size10(ActionEvent actionEvent) {
         size = 10;
-        textField.setText(size + "px");
+        sizeTextField.setText(size + "px");
     }
 
     public void size15(ActionEvent actionEvent) {
         size = 15;
-        textField.setText(size + "px");
+        sizeTextField.setText(size + "px");
     }
 
     public void size25(ActionEvent actionEvent) {
         size = 25;
-        textField.setText(size + "px");
+        sizeTextField.setText(size + "px");
     }
 
     public void size40(ActionEvent actionEvent) {
         size = 40;
-        textField.setText(size + "px");
+        sizeTextField.setText(size + "px");
     }
 
     public void size80(ActionEvent actionEvent) {
         size = 80;
-        textField.setText(size + "px");
+        sizeTextField.setText(size + "px");
     }
 
     public void sizeCustom(ActionEvent actionEvent) {
-        String inputText = textField.getText();
+        String inputText = sizeTextField.getText();
         int index = inputText.length();
         if (inputText.contains("px")) {
             index = inputText.indexOf("p");
@@ -412,7 +418,7 @@ public class drawController {
         if (size > 899) {
             size = 899;
         }
-        textField.setText(size + "px");
+        sizeTextField.setText(size + "px");
     }
 
     /* Button Actions */

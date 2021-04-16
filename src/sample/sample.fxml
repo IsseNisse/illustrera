@@ -89,9 +89,11 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
                <graphic>
-                  <TextField fx:id="textField" maxWidth="-Infinity" onAction="#sizeCustom" prefWidth="80.0" text="10px" />
+                  <TextField fx:id="sizeTextField" maxWidth="-Infinity" onAction="#sizeCustom" prefWidth="80.0" text="10px" />
                </graphic>
             </MenuButton>
+            <TextField fx:id="textField" text="Hello World" />
+            <Label text="Text:" />
          </items>
       </ToolBar>
    </children>

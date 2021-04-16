@@ -19,7 +19,7 @@ public class Text extends Shape {
     public void draw(GraphicsContext gc) {
         gc.setFill(getFill());
         gc.setStroke(getStroke());
-        gc.setFont(new Font("Roboto", 20));
+        gc.setFont(new Font("Roboto", getSize()));
         gc.strokeText(this.text, getStartX(), getStartY(), getWidth());
         gc.fillText(this.text, getStartX(), getStartY(), getWidth());
     }
