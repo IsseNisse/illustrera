@@ -111,8 +111,6 @@ public class Controller {
                     }
 
                     String[] styleValues = getStyleValues(nextLine);
-                    System.out.println(values[0] + " " + values[1] + " " + values[2] + " " + values[3]);
-                    System.out.println(styleValues[0] + " " + styleValues[1] + " " + styleValues[2] + " " + styleValues[3] + " " + styleValues[4]);
 
                     Circle ellipse = new Circle(values[0], values[1], values[2], values[3]);
                     ellipse.setStroke(Color.web(("0x" + styleValues[1]), Double.parseDouble(styleValues[4])));
@@ -121,9 +119,30 @@ public class Controller {
 
                     svgShapes.add(ellipse);
                 } else if (nextLine.contains("text")) {
+                    String[] searchString = {"x=", "y="};
+                    double[] values = new double[searchString.length];
+                    for (int i = 0; i < searchString.length; i++) {
+                        int valueIndex = nextLine.indexOf(searchString[i]);
+                        int quoteIndex = nextLine.indexOf("\"", valueIndex + 3);
+                        double value = Double.parseDouble(nextLine.substring(valueIndex + 3, quoteIndex));
+                        values[i] = value;
+                    }
 
+                    int greaterThenIndex = nextLine.indexOf(">");
+                    int lessThenIndex = nextLine.indexOf("<", greaterThenIndex + 1);
+                    String textValue = nextLine.substring(greaterThenIndex, lessThenIndex);
+
+                    String[] styleValues = getStyleValues(nextLine);
+
+                    Text text = new Text(textValue);
+                    text.setStartX(values[0]);
+                    text.setStartY(values[1]);
+                    text.setStroke(Color.web(("0x" + styleValues[1]), Double.parseDouble(styleValues[4])));
+                    text.setFill(Color.web(("0x" + styleValues[0]), Double.parseDouble(styleValues[3])));
+                    text.setSize(1);
+
+                    svgShapes.add(text);
                 }
-                System.out.println(nextLine);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -239,7 +258,7 @@ public class Controller {
                     Text text = (Text) shape;
                     String strokeColor = getStrokeColor(shape);
                     String fillColor = getFillColor(shape);
-                    svgWriter.append("<text x=\"").append(String.valueOf(text.getStartX())).append("\" y=\"").append(String.valueOf(text.getStartY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";").append(">").append(text.getText()).append("</text>");
+                    svgWriter.append("<text x=\"").append(String.valueOf(text.getStartX())).append("\" y=\"").append(String.valueOf(text.getStartY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(1)).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";\"").append(">").append(text.getText()).append("</text>\n");
                 }
             }
         }
