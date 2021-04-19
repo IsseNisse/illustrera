@@ -154,7 +154,7 @@ public class drawController {
         MenuItem moveToBack = new MenuItem("Move To back");
         MenuItem moveBack = new MenuItem("Move Back");
         MenuItem moveToFront = new MenuItem("Move To Front");
-        MenuItem moveForward = new MenuItem("Move To Forward");
+        MenuItem moveForward = new MenuItem("Move Forward");
         contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
         TextField textField = new TextField();
         textField.setContextMenu(contextMenu);
@@ -261,6 +261,9 @@ public class drawController {
             case "Circle":
                 newPos = new Circle(shape);
                 break;
+            case "Text":
+                newPos = new Text(shape, shape.getText());
+                break;
         }
         if (shape.getType().equals("Line")) {
             newPos.setStartX(shape.getStartX() + xDifference);
@@ -299,6 +302,8 @@ public class drawController {
                     if (shape.getType().equals("Line")) {
                         width = mouseX;
                         height = mouseY;
+                    } else if (shape.getType().equals("Text")){
+                        height = size;
                     }
                 }
 
@@ -313,6 +318,8 @@ public class drawController {
                 if (shape.getType().equals("Line")) {
                     width = mouseX;
                     height = mouseY;
+                } else if (shape.getType().equals("Text")){
+                    height = size;
                 }
             }
 
@@ -414,7 +421,7 @@ public class drawController {
             index = inputText.indexOf("p");
         }
         String sizeString = inputText.substring(0, index);
-        size = Integer.parseInt(sizeString);
+        size = Double.parseDouble(sizeString);
         if (size > 899) {
             size = 899;
         }

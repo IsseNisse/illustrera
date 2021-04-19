@@ -168,6 +168,10 @@ public class Shape implements java.io.Serializable {
         gc.strokeRect(this.startX - this.size/2 - 10, this.startY - this.size/2 - 10, this.width + this.size + 20, this.height + this.size + 20);
     }
 
+    public String getText() {
+        return "";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
