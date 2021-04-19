@@ -120,6 +120,8 @@ public class Controller {
                     ellipse.setSize(Double.parseDouble(styleValues[2]));
 
                     svgShapes.add(ellipse);
+                } else if (nextLine.contains("text")) {
+
                 }
                 System.out.println(nextLine);
             }
@@ -232,6 +234,12 @@ public class Controller {
                     String fillColor = getFillColor(shape);
                     svgWriter.append("<rect x=\"").append(String.valueOf(rectangle.getStartX())).append("\" y=\"").append(String.valueOf(rectangle.getStartY())).append("\" width=\"").append(String.valueOf(rectangle.getWidth())).append("\" height=\"").append(String.valueOf(rectangle.getHeight())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";").append("\" />\n");
                     break;
+                }
+                case "Text": {
+                    Text text = (Text) shape;
+                    String strokeColor = getStrokeColor(shape);
+                    String fillColor = getFillColor(shape);
+                    svgWriter.append("<text x=\"").append(String.valueOf(text.getStartX())).append("\" y=\"").append(String.valueOf(text.getStartY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";").append(">").append(text.getText()).append("</text>");
                 }
             }
         }
