@@ -5,6 +5,7 @@ import javafx.scene.text.Font;
 
 public class Text extends Shape {
     private final String text;
+    private double lineWidth = 1;
 
     public Text(String text) {
         this.text = text;
@@ -35,12 +36,17 @@ public class Text extends Shape {
         return this.text;
     }
 
+    public void setLineWidth(double lineWidth) {
+        this.lineWidth = lineWidth;
+    }
+
     @Override
     public void draw(GraphicsContext gc) {
         gc.setLineDashes(0, 0, 0, 0, 0);
         gc.setFill(getFill());
         gc.setStroke(getStroke());
         gc.setFont(new Font("Roboto", getSize()));
+        gc.setLineWidth(lineWidth);
         gc.strokeText(this.text, getStartX(), getStartY() + getSize(), getWidth());
         gc.fillText(this.text, getStartX(), getStartY() + getSize(), getWidth());
     }
