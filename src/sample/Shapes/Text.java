@@ -9,7 +9,15 @@ public class Text extends Shape {
 
     public Text(String text) {
         this.text = text;
+        setTextWidth();
         type();
+    }
+
+    private void setTextWidth() {
+        javafx.scene.text.Text textBox = new javafx.scene.text.Text(getStartX(), getStartY(), this.text);
+        textBox.setFont(new Font("Roboto", getSize()));
+        double textWidth = textBox.getLayoutBounds().getWidth();
+        setWidth(textWidth);
     }
 
     public Text(Shape shape, String text) {
@@ -42,6 +50,7 @@ public class Text extends Shape {
 
     @Override
     public void draw(GraphicsContext gc) {
+        setTextWidth();
         gc.setLineDashes(0, 0, 0, 0, 0);
         gc.setFill(getFill());
         gc.setStroke(getStroke());

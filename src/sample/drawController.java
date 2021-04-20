@@ -432,6 +432,7 @@ public class drawController {
     public void openBtn(ActionEvent actionEvent) {
         try {
             shapes = Controller.openBtn();
+            System.out.println(shapes);
             drawAllShapes(canvas.getGraphicsContext2D());
         } catch (IOException e) {
             e.printStackTrace();

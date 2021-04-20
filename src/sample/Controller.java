@@ -130,7 +130,11 @@ public class Controller {
 
                     int greaterThenIndex = nextLine.indexOf(">");
                     int lessThenIndex = nextLine.indexOf("<", greaterThenIndex + 1);
-                    String textValue = nextLine.substring(greaterThenIndex, lessThenIndex);
+                    String textValue = nextLine.substring(greaterThenIndex + 1, lessThenIndex);
+
+                    int fontSizeIndex = nextLine.indexOf("font-size");
+                    int quoteIndex = nextLine.indexOf("\"", fontSizeIndex + 11);
+                    double fontSize = Double.parseDouble(nextLine.substring(fontSizeIndex + 11, quoteIndex));
 
                     String[] styleValues = getStyleValues(nextLine);
 
@@ -139,7 +143,8 @@ public class Controller {
                     text.setStartY(values[1]);
                     text.setStroke(Color.web(("0x" + styleValues[1]), Double.parseDouble(styleValues[4])));
                     text.setFill(Color.web(("0x" + styleValues[0]), Double.parseDouble(styleValues[3])));
-                    text.setSize(1);
+                    text.setSize(fontSize);
+                    text.setHeight(fontSize);
 
                     svgShapes.add(text);
                 }
@@ -258,7 +263,7 @@ public class Controller {
                     Text text = (Text) shape;
                     String strokeColor = getStrokeColor(shape);
                     String fillColor = getFillColor(shape);
-                    svgWriter.append("<text x=\"").append(String.valueOf(text.getStartX())).append("\" y=\"").append(String.valueOf(text.getStartY())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(1)).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";\"").append(">").append(text.getText()).append("</text>\n");
+                    svgWriter.append("<text x=\"").append(String.valueOf(text.getStartX())).append("\" y=\"").append(String.valueOf(text.getStartY())).append("\" font-size=\"").append(String.valueOf(shape.getSize())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(1)).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";\"").append(">").append(text.getText()).append("</text>\n");
                 }
             }
         }
