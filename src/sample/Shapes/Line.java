@@ -41,14 +41,6 @@ public class Line extends Shape {
         super.setArea(width*Math.sqrt(height));
     }
 
-    @Override
-    public double getHypotenuse() {
-        int a = (int) (getWidth() - getStartX());
-        int b = (int) (getHeight() - getStartY());
-        double height = Math.pow(a, 2) + Math.pow(b, 2);
-        return Math.sqrt(height);
-    }
-
     private void type() {
         super.setType("Line");
     }

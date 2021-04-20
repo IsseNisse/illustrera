@@ -49,6 +49,15 @@ public class Controller {
         return shapes;
     }
 
+    private static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return "";
+        }
+        return name.substring(lastIndexOf);
+    }
+
     public static ArrayList<Shape> svgToShapesConverter(File file) {
         ArrayList<Shape> svgShapes = new ArrayList<>();
 
@@ -211,27 +220,6 @@ public class Controller {
         }
     }
 
-    private static String getFileExtension(File file) {
-        String name = file.getName();
-        int lastIndexOf = name.lastIndexOf(".");
-        if (lastIndexOf == -1) {
-            return "";
-        }
-        return name.substring(lastIndexOf);
-    }
-
-    private static void writeILU(File file, ArrayList<Shape> shapes) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(file + ".ilu");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(shapes);
-            out.close();
-            fileOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static void writeSVG(File file, ArrayList<Shape> shapes, String extension) throws IOException {
         FileWriter svgWriter = new FileWriter(file + extension);
         svgWriter.append("<svg height=\"1040\" width=\"1820\">\n");
@@ -248,7 +236,6 @@ public class Controller {
                     Circle circle = (Circle) shape;
                     String strokeColor = getStrokeColor(shape);
                     String fillColor = getFillColor(shape);
-                    System.out.println(shape.getCenterX() + " " + shape.getCenterY());
                     svgWriter.append("<ellipse cx=\"").append(String.valueOf(circle.getCenterX())).append("\" cy=\"").append(String.valueOf(circle.getCenterY())).append("\" rx=\"").append(String.valueOf(circle.getXRadius())).append("\" ry=\"").append(String.valueOf(circle.getYRadius())).append("\" style=\"fill:#").append(fillColor).append(";stroke:#").append(strokeColor).append(";stroke-width:").append(String.valueOf(shape.getSize())).append(";fill-opacity:").append(String.valueOf(shape.getFillOpacity())).append(";stroke-opacity:").append(String.valueOf(shape.getStrokeOpacity())).append(";").append("\" />\n");
                     break;
                 }
@@ -269,6 +256,18 @@ public class Controller {
         }
         svgWriter.append("</svg>");
         svgWriter.close();
+    }
+
+    private static void writeILU(File file, ArrayList<Shape> shapes) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file + ".ilu");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(shapes);
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String getStrokeColor(Shape shape) {

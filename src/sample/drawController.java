@@ -71,9 +71,6 @@ public class drawController {
             case "drawCircle":
                 drawCircle(gc, mouseX, mouseY, mouseEvent);
                 break;
-//            case "drawTriangle":
-//                drawTriangle(mouseX, mouseY, mouseEvent);
-//                break;
             case "select":
                 select(mouseX, mouseY, mouseEvent, gc);
                 break;
@@ -110,12 +107,6 @@ public class drawController {
         }
     }
 
-//    private void drawTriangle(double mouseX, double mouseY, MouseEvent mouseEvent) {
-//        EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
-//        String shape = "triangle";
-//        shapeDraw(mouseX, mouseY, eventType, shape);
-//    }
-
     private void select(double mouseX, double mouseY, MouseEvent mouseEvent, GraphicsContext gc) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
         if (mouseEvent.getButton().toString().equals("PRIMARY")) {
@@ -149,60 +140,68 @@ public class drawController {
         }
     }
 
-    private void showContextMenu(MouseEvent mouseEvent, GraphicsContext gc) {
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem moveToBack = new MenuItem("Move To back");
-        MenuItem moveBack = new MenuItem("Move Back");
-        MenuItem moveToFront = new MenuItem("Move To Front");
-        MenuItem moveForward = new MenuItem("Move Forward");
-        contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
-        TextField textField = new TextField();
-        textField.setContextMenu(contextMenu);
-        contextMenu.show(canvas, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-        moveToBack.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                shapes.remove(selectedShape);
-                shapes.add(0, selectedShape);
-                drawAllShapes(gc);
-            }
-        });
-        moveBack.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                int selectedShapeIndex = shapes.indexOf(selectedShape);
-                Shape movedShape = shapes.get(selectedShapeIndex - 1);
-                shapes.set(selectedShapeIndex - 1, selectedShape);
-                shapes.set(selectedShapeIndex, movedShape);
-                drawAllShapes(gc);
-            }
-        });
-        moveToFront.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                shapes.remove(selectedShape);
-                shapes.add(shapes.size(), selectedShape);
-                drawAllShapes(gc);
-            }
-        });
-        moveForward.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                int selectedShapeIndex = shapes.indexOf(selectedShape);
-                Shape movedShape = shapes.get(selectedShapeIndex + 1);
-                shapes.set(selectedShapeIndex + 1, selectedShape);
-                shapes.set(selectedShapeIndex, movedShape);
-                drawAllShapes(gc);
-            }
-        });
-    }
-
     private void createText(GraphicsContext gc, double mouseX, double mouseY, MouseEvent mouseEvent) {
         EventType<? extends MouseEvent> eventType = mouseEvent.getEventType();
         if (mouseEvent.getButton().toString().equals("PRIMARY")) {
             Text text = new Text(textField.getText());
             drawAllShapes(gc);
             shapeDraw(gc, mouseX, mouseY, eventType, text);
+        }
+    }
+
+    public void drawAllShapes(GraphicsContext gc) {
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        for (Shape shape : shapes) {
+            shape.draw(gc);
+        }
+    }
+
+    /* Function for general shape drawing and animation */
+    private void shapeDraw(GraphicsContext gc, double mouseX, double mouseY, EventType<? extends MouseEvent> eventType, Shape shape) {
+        double height;
+        double width;
+        if (!eventType.getName().equals("MOUSE_RELEASED")) {
+            if (eventType.getName().equals("MOUSE_PRESSED")) {
+                anchor1X = mouseX;
+                anchor1Y = mouseY;
+            } else if (eventType.getName().equals("MOUSE_DRAGGED")) {
+                if (!savedLines.empty()) {
+                    Image undoImage = savedLines.get(savedLines.size() - 1);
+                    canvas.getGraphicsContext2D().drawImage(undoImage, 0, 0);
+                }
+                width = mouseX - anchor1X;
+                if (keyPressed) {
+                    height = width;
+                } else {
+                    height = mouseY - anchor1Y;
+                    if (shape.getType().equals("Line")) {
+                        width = mouseX;
+                        height = mouseY;
+                    } else if (shape.getType().equals("Text")){
+                        height = size;
+                    }
+                }
+
+                editAndDrawShape(gc, shape, height, width);
+            }
+        } else {
+            width = mouseX - anchor1X;
+            if (keyPressed) {
+                height = width;
+            } else {
+                height = mouseY - anchor1Y;
+                if (shape.getType().equals("Line")) {
+                    width = mouseX;
+                    height = mouseY;
+                } else if (shape.getType().equals("Text")){
+                    height = size;
+                }
+            }
+
+            editAndDrawShape(gc, shape, height, width);
+            ArrayList<Shape> latestShapes = new ArrayList<>(shapes);
+            latestCreatedShapesList.add(latestShapes);
+            shapes.add(shape);
         }
     }
 
@@ -281,53 +280,52 @@ public class drawController {
         return newPos;
     }
 
-    /* Function for general shape drawing and animation */
-    private void shapeDraw(GraphicsContext gc, double mouseX, double mouseY, EventType<? extends MouseEvent> eventType, Shape shape) {
-        double height;
-        double width;
-        if (!eventType.getName().equals("MOUSE_RELEASED")) {
-            if (eventType.getName().equals("MOUSE_PRESSED")) {
-                anchor1X = mouseX;
-                anchor1Y = mouseY;
-            } else if (eventType.getName().equals("MOUSE_DRAGGED")) {
-                if (!savedLines.empty()) {
-                    Image undoImage = savedLines.get(savedLines.size() - 1);
-                    canvas.getGraphicsContext2D().drawImage(undoImage, 0, 0);
-                }
-                width = mouseX - anchor1X;
-                if (keyPressed) {
-                    height = width;
-                } else {
-                    height = mouseY - anchor1Y;
-                    if (shape.getType().equals("Line")) {
-                        width = mouseX;
-                        height = mouseY;
-                    } else if (shape.getType().equals("Text")){
-                        height = size;
-                    }
-                }
-
-                editAndDrawShape(gc, shape, height, width);
+    private void showContextMenu(MouseEvent mouseEvent, GraphicsContext gc) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem moveToBack = new MenuItem("Move To back");
+        MenuItem moveBack = new MenuItem("Move Back");
+        MenuItem moveToFront = new MenuItem("Move To Front");
+        MenuItem moveForward = new MenuItem("Move Forward");
+        contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
+        TextField textField = new TextField();
+        textField.setContextMenu(contextMenu);
+        contextMenu.show(canvas, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+        moveToBack.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                shapes.remove(selectedShape);
+                shapes.add(0, selectedShape);
+                drawAllShapes(gc);
             }
-        } else {
-            width = mouseX - anchor1X;
-            if (keyPressed) {
-                height = width;
-            } else {
-                height = mouseY - anchor1Y;
-                if (shape.getType().equals("Line")) {
-                    width = mouseX;
-                    height = mouseY;
-                } else if (shape.getType().equals("Text")){
-                    height = size;
-                }
+        });
+        moveBack.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int selectedShapeIndex = shapes.indexOf(selectedShape);
+                Shape movedShape = shapes.get(selectedShapeIndex - 1);
+                shapes.set(selectedShapeIndex - 1, selectedShape);
+                shapes.set(selectedShapeIndex, movedShape);
+                drawAllShapes(gc);
             }
-
-            editAndDrawShape(gc, shape, height, width);
-            ArrayList<Shape> latestShapes = new ArrayList<>(shapes);
-            latestCreatedShapesList.add(latestShapes);
-            shapes.add(shape);
-        }
+        });
+        moveToFront.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                shapes.remove(selectedShape);
+                shapes.add(shapes.size(), selectedShape);
+                drawAllShapes(gc);
+            }
+        });
+        moveForward.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int selectedShapeIndex = shapes.indexOf(selectedShape);
+                Shape movedShape = shapes.get(selectedShapeIndex + 1);
+                shapes.set(selectedShapeIndex + 1, selectedShape);
+                shapes.set(selectedShapeIndex, movedShape);
+                drawAllShapes(gc);
+            }
+        });
     }
 
     private void editAndDrawShape(GraphicsContext gc, Shape shape, double height, double width) {
@@ -383,10 +381,6 @@ public class drawController {
         drawFunction = "text";
     }
 
-//    public void triangleBtn(ActionEvent actionEvent) {
-//        drawFunction = "drawTriangle";
-//    }
-
     /* Size buttons */
 
     public void size10(ActionEvent actionEvent) {
@@ -432,7 +426,6 @@ public class drawController {
     public void openBtn(ActionEvent actionEvent) {
         try {
             shapes = Controller.openBtn();
-            System.out.println(shapes);
             drawAllShapes(canvas.getGraphicsContext2D());
         } catch (IOException e) {
             e.printStackTrace();
@@ -447,10 +440,4 @@ public class drawController {
         keyPressed = keyEvent.isShiftDown();
     }
 
-    public void drawAllShapes(GraphicsContext gc) {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (Shape shape : shapes) {
-            shape.draw(gc);
-        }
-    }
 }
