@@ -136,7 +136,9 @@ public class drawController {
                 selectedShapes.clear();
             }
         } else if (mouseEvent.getButton().toString().equals("SECONDARY")) {
-            showContextMenu(mouseEvent, gc);
+            if (eventType.getName().equals("MOUSE_RELEASED")) {
+                showContextMenu(mouseEvent, gc);
+            }
         }
     }
 
