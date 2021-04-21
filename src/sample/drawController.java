@@ -289,8 +289,6 @@ public class drawController {
         MenuItem moveToFront = new MenuItem("Move To Front");
         MenuItem moveForward = new MenuItem("Move Forward");
         contextMenu.getItems().addAll(moveToBack, moveBack, moveToFront, moveForward);
-        TextField textField = new TextField();
-        textField.setContextMenu(contextMenu);
         contextMenu.show(canvas, mouseEvent.getScreenX(), mouseEvent.getScreenY());
         moveToBack.setOnAction(new EventHandler<ActionEvent>() {
             @Override

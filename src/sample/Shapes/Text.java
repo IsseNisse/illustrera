@@ -5,7 +5,7 @@ import javafx.scene.text.Font;
 
 public class Text extends Shape {
     private final String text;
-    private double lineWidth = 1;
+    private double lineWidth = 2;
 
     public Text(String text) {
         this.text = text;
