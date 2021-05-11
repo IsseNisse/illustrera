@@ -1,8 +1,180 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" onKeyReleased="#keyPressed" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.drawController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="NEVER" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ToolBar id="toolbar" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" prefWidth="222.0" GridPane.columnSpan="2">
+        <items>
+          <Button id="save" mnemonicParsing="false" onAction="#saveBtn">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/download.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#openBtn">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView id="open" fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/upload.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+        </items>
+      </ToolBar>
+      <Canvas fx:id="canvas" height="1040.0" onMouseDragged="#draw" onMousePressed="#draw" onMouseReleased="#draw" width="1800.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+      <ToolBar maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" prefHeight="40.0" prefWidth="40.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+        <items>
+            <Button alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#selectBtn">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView id="select" fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/select.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+          <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#drawLineBtn">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView id="line" fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/line.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <MenuButton alignment="TOP_LEFT" mnemonicParsing="false">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#SquareBtn">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="shapes">
+                           <image>
+                              <Image url="@images/square.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#CircleBtn">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="shapes">
+                           <image>
+                              <Image url="@images/circle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                </MenuItem>
+              </items>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView id="shapes" fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/circlesquare.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MenuButton>
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#textBtn">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/t.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label text="Stroke Color">
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <ColorPicker fx:id="strokeColorPicker" onAction="#strokeColorPicker" prefWidth="110.0">
+               <value>
+                  <Color />
+               </value>
+            </ColorPicker>
+            <Label layoutX="10.0" layoutY="70.0" text="Fill Color" />
+            <ColorPicker fx:id="fillColorPicker" layoutX="10.0" layoutY="70.0" onAction="#fillColorPicker" prefWidth="110.0">
+               <value>
+                  <Color opacity="0.0" />
+               </value>
+            </ColorPicker>
+        </items>
+      </ToolBar>
+      <ToolBar maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="NEVER">
+         <items>
+            <Button mnemonicParsing="false" onAction="#undo">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/undo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <MenuButton id="size" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" snapToPixel="false" text="Size">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#size10" text="10px" />
+                <MenuItem mnemonicParsing="false" onAction="#size15" text="15px" />
+                  <MenuItem mnemonicParsing="false" onAction="#size25" text="25px" />
+                  <MenuItem mnemonicParsing="false" onAction="#size40" text="40px" />
+                  <MenuItem mnemonicParsing="false" onAction="#size80" text="80px" />
+              </items>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+               <graphic>
+                  <TextField fx:id="sizeTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" nodeOrientation="RIGHT_TO_LEFT" onAction="#sizeCustom" prefWidth="80.0" snapToPixel="false" text="10px" />
+               </graphic>
+            </MenuButton>
+            <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/ruler.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="textField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="31.0" text="Hello World" />
+            <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/typography.png" />
+               </image>
+            </ImageView>
+         </items>
+      </ToolBar>
+   </children>
 </GridPane>

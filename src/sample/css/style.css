@@ -1,0 +1,51 @@
+.tool-bar {
+    -fx-background-color: #696969;
+}
+
+.button {
+    -fx-background-color: #696969;
+    -fx-border: none;
+    -fx-text-fill: white;
+    -fx-text-decoration: none;
+    -fx-display: inline-block;
+    -fx-font-size: 13px;
+    -fx-max-height: 30px;
+    -fx-max-width: 50px;
+}
+
+.button:hover {
+    -fx-background-color: #555555;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+.text-field {
+    -fx-background-color: #555555;
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-background-color: #696969;
+}
+
+.menu-button {
+    -fx-background-color: #696969;
+}
+
+.menu-item {
+    -fx-background-color: #555555;
+}
+
+.menu-item:hover {
+    -fx-background-color: #696969;
+}
+
+.color-picker {
+    -fx-background-color: #555555;
+}
+
+#shapes {
+    -fx-text-align: center;
+}
