@@ -30,7 +30,8 @@
                   <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/download.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                </graphic>
             </Button>
             <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#openBtn">
@@ -83,7 +84,8 @@
                               <Image url="@images/square.png" />
                            </image>
                         </ImageView>
-                     </graphic></MenuItem>
+                     </graphic>
+                </MenuItem>
                 <MenuItem mnemonicParsing="false" onAction="#CircleBtn">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="shapes">
@@ -91,7 +93,8 @@
                               <Image url="@images/circle.png" />
                            </image>
                         </ImageView>
-                     </graphic></MenuItem>
+                     </graphic>
+                </MenuItem>
               </items>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
@@ -111,7 +114,8 @@
                         <Image url="@images/t.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Label text="Stroke Color">
                <padding>
                   <Insets top="20.0" />
@@ -142,7 +146,8 @@
                         <Image url="@images/undo.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <MenuButton id="size" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" snapToPixel="false" text="Size">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#size10" text="10px" />
@@ -158,8 +163,17 @@
                   <TextField fx:id="sizeTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" nodeOrientation="RIGHT_TO_LEFT" onAction="#sizeCustom" prefWidth="80.0" snapToPixel="false" text="10px" />
                </graphic>
             </MenuButton>
+            <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/ruler.png" />
+               </image>
+            </ImageView>
             <TextField fx:id="textField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="31.0" text="Hello World" />
-            <Label text="Text:" />
+            <ImageView fitHeight="30.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/typography.png" />
+               </image>
+            </ImageView>
          </items>
       </ToolBar>
    </children>
