@@ -1,0 +1,12 @@
+body {
+    background-image: url("../images/illustrera.png");
+}
+
+main {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+}
+
+.btn:hover {
+    background-color: rgb(224, 224, 224);
+}
